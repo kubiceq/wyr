@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+            integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>rather</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="index.html">Domov</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link" href="pravdaOdvaha.html">P/O</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="wouldYouRather.html">WYR</a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html" class="btn">Odid</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="jumbotron text-center">
+    <h1>Would You Rather</h1>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <div>
+            <h2> Miestnost:</h2>
+            <h2 id="room-name"></h2>
+            <h3> Users</h3>
+            <ul id="users"></ul>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <!--
+        <div class="counter" id="counter">0/0</div>
+         -->
+        <div class="otazka"  id="otazka" onclick="novaOtazka()" >Otázka</div>
+    </div>
+
+    <div class="col-sm-3"></div>
+</div>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <main class="chat-main">
+            <div class="chat-messages"></div>
+        </main>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+<div class="row">
+    <div class="col-sm-3"></div>
+
+    <div class="col-sm-6">
+
+        <div >
+            <form id="chat-form">
+                <input
+                        id="msg"
+                        type="text"
+                        placeholder="Enter Message"
+                        required
+                        autocomplete="off"
+                />
+                <button class="btn"><i class="fas fa-paper-plane"></i> Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+
+</div>
+<div class="row">
+    <div class="col-sm-8">
+
+    </div>
+    <div class="col-sm-4">
+        <!--
+        <label for="wyrInputNew">Iba Vlastné Otázky</label>
+        <input id="wyrInputNew"  type="file" onchange="nacitajSuborNew(this)">
+        <p></p>
+
+        <label for="wyrInputAppend">Pridaj Vlastné Otázky</label>
+        <input id="wyrInputAppend"  type="file" onchange="nacitajSuborNew(this)">
+        -->
+
+    </div>
+</div>
+
+
+
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+        integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
+        crossorigin="anonymous"
+></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/main.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
