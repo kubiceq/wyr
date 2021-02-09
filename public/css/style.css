@@ -190,6 +190,9 @@ a {
 	align-items: center;
 	font-size: 2vw;
 	background-color: plum;
+	margin-left: auto;
+    	text-align: center;
+   	margin-right: auto;
 }
 .pravda{
 	position: relative;
