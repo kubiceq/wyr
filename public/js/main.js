@@ -8,7 +8,7 @@ const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 });
 
-const socket = io('https://wyrkubqo.herokuapp.com/');
+const socket = io();
 
 // Join chatroom
 socket.emit('joinRoom', { username, room });
@@ -85,10 +85,32 @@ function outputUsers(users) {
    socket.emit('otazka','next');
  }
 
+function generujIdIzby(length){
+     var result           = '';
+     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+     var charactersLength = characters.length;
+     for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+     }
+
+     socket.emit('novaIzba',result);
+     console.log(result);
+     return result;
+   }
+
+
+
+
  socket.on('otazka', otazka =>{
 
    console.log(otazka);
    const otazkahtml = document.getElementById('otazka');
-   otazkahtml.innerText = otazka;
+   const pocitadlohtml = document.getElementById('counter');
+   otazkahtml.innerText = otazka.pom;
+   pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
 
  });
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

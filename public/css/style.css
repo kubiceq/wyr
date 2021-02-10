@@ -191,36 +191,18 @@ a {
 	font-size: 2vw;
 	background-color: plum;
 	margin-left: auto;
-    	text-align: center;
-   	margin-right: auto;
+	text-align: center;
+	margin-right: auto;
 }
-.pravda{
-	position: relative;
-	height: 500pt;
-	width: 250pt;
-	border: 6px solid black;
-	border-radius: .5rem;
-	display: flex;
+.counter{
+	position: center;
 	justify-content: center;
 	align-items: center;
-	font-size: 2vw;
-
-	background-color: lightgreen;
+	font-size: 20px;
+	margin-left: auto;
+	text-align: center;
+	margin-right: auto;
 }
-.odvaha{
-	position: relative;
-	height: 500pt;
-	width: 250pt;
-	border: 6px solid black;
-	border-radius: .5rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-size: 2vw;
-	background-color: indianred;
-
-}
-
 @media (max-width: 700px) {
 	.chat-main {
 		display: block;

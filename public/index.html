@@ -11,17 +11,18 @@
 			crossorigin="anonymous"
 		/>
 		<link rel="stylesheet" href="css/style.css" />
-		<title>ChatCord App</title>
+		<title>Hrajkanie</title>
 	</head>
 	<body>
 		<div class="join-container">
 			<header class="join-header">
-				<h1><i class="fas fa-smile"></i> ChatCord</h1>
+				<h1> Hrajkanie</h1>
 			</header>
 			<main class="join-main">
-				<form action="WYR.html">
+				<form action="WYR.html" >
+
 					<div class="form-control">
-						<label for="username">Username</label>
+						<label for="username">Meno</label>
 						<input
 							type="text"
 							name="username"
@@ -30,14 +31,22 @@
 							required
 						/>
 					</div>
-					<div class="form-control">
-						<label for="room">Room</label>
-						<select name="room" id="room">
-							<option value="WYR">WouldYouRather</option>
 
-						</select>
+
+					<div class="form-control">
+						<label for="room">Miestnosť</label>
+						<input
+								type="text"
+								name="room"
+								id="room"
+								placeholder="ID miestnosti"
+								value=""
+								required
+
+						/>
 					</div>
-					<button type="submit" class="btn">Join Chat</button>
+
+					<button class="btn">Pridaj sa</button>
 				</form>
 			</main>
 		</div>
