@@ -232,10 +232,9 @@ io.on('connection', socket => {
     const user = userJoin(socket.id, username, room);
     console.log(user);
     socket.join(user.room);
-    socket.emit('message', user);
 
     // Welcome current user
-    socket.emit('message', formatMessage(botName, user));
+    socket.emit('message', formatMessage(botName, 'Vitaj v chate'));
 
     // Broadcast when a user connects
     socket.broadcast
