@@ -2,8 +2,8 @@ const users = [];
 
 // Join user to chat
 function userJoin(id, username, room) {
-  const user = { id, username, room };
-
+  const user = { id, username, room, jeNaTahu };
+  user.jeNaTahu = false;
   users.push(user);
 
   return user;
@@ -28,9 +28,31 @@ function getRoomUsers(room) {
   return users.filter(user => user.room === room);
 }
 
+function getNumberOfRoomUsers(room){
+  let pom = users.filter((user => user.room === room)).length;
+  console.log("numofusers");
+  console.log(pom);
+  return pom;
+}
+
+function jeNaTahu(index){
+  console.log(index);
+  id = users[index].id;
+  for (hrac of users) {
+    if(hrac.id === id){
+      hrac.jeNaTahu = true;
+    }
+    else {
+      hrac.jeNaTahu = false;
+    }
+  }
+}
+
 module.exports = {
   userJoin,
   getCurrentUser,
   userLeave,
-  getRoomUsers
+  getRoomUsers,
+  jeNaTahu,
+  getNumberOfRoomUsers
 };

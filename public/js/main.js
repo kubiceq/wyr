@@ -34,9 +34,9 @@ chatForm.addEventListener('submit', e => {
 
   // Get message text
   let msg = e.target.elements.msg.value;
-  
+
   msg = msg.trim();
-  
+
   if (!msg){
     return false;
   }
@@ -75,6 +75,10 @@ function outputUsers(users) {
   userList.innerHTML = '';
   users.forEach(user=>{
     const li = document.createElement('li');
+    
+    if (user.jeNaTahu) {
+        li.classList.toggle("aktivnyUser");
+    }
     li.innerText = user.username;
     userList.appendChild(li);
   });
@@ -97,7 +101,6 @@ function generujIdIzby(length){
      console.log(result);
      return result;
    }
-
 
 
 

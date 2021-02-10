@@ -203,6 +203,9 @@ a {
 	text-align: center;
 	margin-right: auto;
 }
+.aktivnyUser{
+	background-color: green;
+}
 @media (max-width: 700px) {
 	.chat-main {
 		display: block;

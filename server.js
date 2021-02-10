@@ -44,8 +44,9 @@ let otazky = ["Would you rather Have a dog with a cat’s personality or a cat w
   "Would you rather drink soup out of a farmer's welly or from a binman's sock?",
   "Would you rather have no sense of smell or no sense of taste?",
   "Would you rather have your name tattooed on your forehead or have no front teeth?"];
-let counter = 0;
 
+let counter = 0;
+let ktoJeNaTahu = 0;
 
 const path = require('path');
 const http = require('http');
@@ -56,7 +57,9 @@ const {
   userJoin,
   getCurrentUser,
   userLeave,
-  getRoomUsers
+  getRoomUsers,
+  jeNaTahu,
+  getNumberOfRoomUsers
 } = require('./utils/users');
 
 const app = express();
@@ -74,9 +77,10 @@ io.on('connection', socket => {
     const user = userJoin(socket.id, username, room);
     console.log(user);
     socket.join(user.room);
+    socket.emit('message', user);
 
     // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Vitajte u nas'));
+    socket.emit('message', formatMessage(botName, user));
 
     // Broadcast when a user connects
     socket.broadcast
@@ -91,12 +95,33 @@ io.on('connection', socket => {
       room: user.room,
       users: getRoomUsers(user.room)
     });
+    /*
+    Ak je v miestnosti viac ako jeden clovek, nastavi posledneho pripojeneho ako zacinajuceho
+    */
+    if(getNumberOfRoomUsers(user.room) > 1){
+      jeNaTahu(getNumberOfRoomUsers(user.room)-1);
+    }
+
   });
 
   socket.on('otazka', msg => {
     const user = getCurrentUser(socket.id);
     console.log(msg);
+    //io.to(user.room).emit('otazka',getRoomUsers(user.room));//testing potom treba vymenit za spodny
     io.to(user.room).emit('otazka', novaOtazka());
+    ktoJeNaTahu = ktoJeNaTahu + 1;
+    console.log("ktoJeNaTahu ");
+    console.log(ktoJeNaTahu);
+
+    if (ktoJeNaTahu === getNumberOfRoomUsers(user.room)) {
+      ktoJeNaTahu = 0;
+    }
+    jeNaTahu(ktoJeNaTahu)
+    // Send users and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
   });
 
   socket.on('novaIzba', msg => {
@@ -150,6 +175,6 @@ function novaOtazka() {
 
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
