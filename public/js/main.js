@@ -75,7 +75,7 @@ function outputUsers(users) {
   userList.innerHTML = '';
   users.forEach(user=>{
     const li = document.createElement('li');
-    
+
     if (user.jeNaTahu) {
         li.classList.toggle("aktivnyUser");
     }
@@ -113,6 +113,10 @@ function generujIdIzby(length){
    pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
 
  });
+
+ function vyberSetOtazok(otazky){
+   socket.emit('setOtazok', otazky);
+ }
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
