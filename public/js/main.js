@@ -3,6 +3,7 @@ const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
 
+
 // Get username and room from URL
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true
@@ -70,18 +71,29 @@ function outputRoomName(room) {
   roomName.innerText = room;
 }
 
-// Add users to DOM
+// vypluje userov do html
+//okrem toho oznaci momentalne aktivneho usera a tomu povoli stlacit kartu, ostatnym to zakaze
 function outputUsers(users) {
   userList.innerHTML = '';
+  const kopka1 = document.getElementById('kopka1Btn');
   users.forEach(user=>{
     const li = document.createElement('li');
 
     if (user.jeNaTahu) {
         li.classList.toggle("aktivnyUser");
     }
+
     li.innerText = user.username;
     userList.appendChild(li);
   });
+  
+  const thisUser = users.find(user => user.id === socket.id);
+  if (thisUser.jeNaTahu) {
+    kopka1.disabled = false
+  }
+  else {
+    kopka1.disabled = true;
+  }
  }
 
  function novaOtazka() {

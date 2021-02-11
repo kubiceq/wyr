@@ -249,13 +249,15 @@ io.on('connection', socket => {
       room: user.room,
       users: getRoomUsers(user.room)
     });
-    /*
-    Ak je v miestnosti viac ako jeden clovek, nastavi posledneho pripojeneho ako zacinajuceho
-    */
-    if(getNumberOfRoomUsers(user.room) > 1){
-      jeNaTahu(getNumberOfRoomUsers(user.room)-1);
-    }
 
+
+      jeNaTahu(getNumberOfRoomUsers(user.room)-1);
+
+    // Send users and room info
+    io.to(user.room).emit('roomUsers', {
+      room: user.room,
+      users: getRoomUsers(user.room)
+    });
   });
 
   socket.on('otazka', msg => {
@@ -334,6 +336,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
+//najde nahodnu otazku a vrati otazku, pocet doteraz otazok a pocet vsetkych otazok
 function novaOtazka() {
   counter = counter + 1;
   let index = getRandomInt(0,otazky.length);
@@ -344,6 +347,7 @@ function novaOtazka() {
   return {pom, counter, dlzka};
 }
 
+//pri pouziti noveho balicku vrati otazku so specifickym nazvom a nastavi counter na 0
 function titulnaOtazka(titulok) {
   counter = 0;
   let dlzka = otazky.length;

@@ -206,6 +206,12 @@ a {
 .aktivnyUser{
 	background-color: green;
 }
+.kopka1Btn{
+	position: center;
+	width: inherit;
+	height: inherit;
+}
+
 @media (max-width: 700px) {
 	.chat-main {
 		display: block;
