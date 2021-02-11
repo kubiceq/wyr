@@ -13,13 +13,8 @@
 <p>aby som prepojil freenom a heroku, pouzil som tento navod:</p>
 <p>https://www.lewagon.com/blog/buying-a-domain-on-namecheap-and-pointing-it-to-heroku</p>
 <p>NEZABUDNUT na to, ze treba dat po adrese bodku</p>
+<p></p>
 <p>aby som to vedel testovat u seba:</p>
-<p>1)Musim stiahnut zlozku z GIT hubu k sebe</p>
-  <p>2)Otvorit commandline a cd do zlozky z gitu</p>
-  <p>3)  npm init</p>
-      <p>npm install express socket.io moments</p>
-      <p>npm install -D nodemon</p>
-  <p>4)nodemon run dev</p>
 <ul>
 <li>1)Musim stiahnut zlozku z GIT hubu k sebe</li>
 <li>2)Otvorit commandline a cd do zlozky z gitu</li>
