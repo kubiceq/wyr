@@ -20,3 +20,12 @@
       <p>npm install express socket.io moments</p>
       <p>npm install -D nodemon</p>
   <p>4)nodemon run dev</p>
+<ul>
+<li>1)Musim stiahnut zlozku z GIT hubu k sebe</li>
+<li>2)Otvorit commandline a cd do zlozky z gitu</li>
+<li>3)  npm init
+<p>npm install express socket.io moments</p>
+<p>npm install -D nodemon</p>
+</li>
+<li>4)nodemon run dev</li>
+</ul>  
