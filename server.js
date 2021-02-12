@@ -97,24 +97,26 @@ io.on('connection', socket => {
     console.log(msg);
     if (msg === "prvySetOtazok") {
         otazky = getOtazky('prvySetOtazok');
-        io.to(user.room).emit('otazka', titulnaOtazka("Prvy Set"));
+        //io.to(user.room).emit('otazka', titulnaOtazka("Prvy Set"));
     }
     else if (msg === "druhySetOtazok") {
         otazky = getOtazky('druhySetOtazok');
-        console.log('druhy set');
-        io.to(user.room).emit('otazka', titulnaOtazka("Druhy Set"));
+        //io.to(user.room).emit('otazka', titulnaOtazka("Druhy Set"));
     }
     else if (msg === "tretiSetOtazok") {
         otazky = getOtazky('tretiSetOtazok');
-        io.to(user.room).emit('otazka', titulnaOtazka("Treti Set"));
+      //io.to(user.room).emit('otazka', titulnaOtazka("Treti Set"));
     }
+    io.to(user.room).emit('setOtazok',  titulnaOtazka("Novy Set"));
 
     console.log(otazky);
+    //io.to(user.room).emit('otazka', titulnaOtazka("Novy Set"));
   });
 
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
+
     console.log(msg);
 
     io.to(user.room).emit('message', formatMessage(user.username, msg));

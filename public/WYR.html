@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.html">Domov</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,9 +69,7 @@
 
 
     <div class="col-sm-6">
-
-
-        <div class="otazka"  id="otazka" >Otázka</div>
+      <div id="deck" class='deck' onclick="novaOtazka()"></div>
     </div>
 
     <div class="col-sm-3"></div>
@@ -102,6 +102,7 @@
         </div>
     </div>
     <div class="col-sm-3">
+  <button type="button" name="button" onclick="novyDeck(7)" >test</button>
 <button type="button" name="button" onclick="vyberSetOtazok('prvySetOtazok')" >prvySetOtazok</button>
 <button type="button" name="button" onclick="vyberSetOtazok('druhySetOtazok')" >druhySetOtazok</button>
 <button type="button" name="button" onclick="vyberSetOtazok('tretiSetOtazok')" >tretiSetOtazok</button>
@@ -109,22 +110,13 @@
 
 </div>
 <div class="row">
-    <div class="col-sm-8">
 
-    </div>
-    <div class="col-sm-4">
-        <!--
-        <label for="wyrInputNew">Iba Vlastné Otázky</label>
-        <input id="wyrInputNew"  type="file" onchange="nacitajSuborNew(this)">
-        <p></p>
+  </div>
+  <p class="body-message">Click stack to remove a card, click anywhere else to add more cards.</p>
 
-        <label for="wyrInputAppend">Pridaj Vlastné Otázky</label>
-        <input id="wyrInputAppend"  type="file" onchange="nacitajSuborNew(this)">
-        -->
+  </div>
 
-    </div>
 </div>
-
 
 
 <script

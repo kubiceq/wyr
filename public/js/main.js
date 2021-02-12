@@ -76,6 +76,7 @@ function outputRoomName(room) {
 function outputUsers(users) {
   userList.innerHTML = '';
   const kopka1 = document.getElementById('kopka1Btn');
+  const deck = document.getElementById('deck');
   users.forEach(user=>{
     const li = document.createElement('li');
 
@@ -86,13 +87,16 @@ function outputUsers(users) {
     li.innerText = user.username;
     userList.appendChild(li);
   });
-  
+
   const thisUser = users.find(user => user.id === socket.id);
+  const deckhtml = document.getElementById('deck');
   if (thisUser.jeNaTahu) {
     kopka1.disabled = false
+    deckhtml.setAttribute('onclick','novaOtazka()')
   }
   else {
     kopka1.disabled = true;
+    deckhtml.setAttribute('onclick','glupa()')
   }
  }
 
@@ -119,12 +123,34 @@ function generujIdIzby(length){
  socket.on('otazka', otazka =>{
 
    console.log(otazka);
-   const otazkahtml = document.getElementById('otazka');
+   console.log(otazka.counter);
+   const otazkahtml = document.getElementById(`karta-${otazka.counter}`);
    const pocitadlohtml = document.getElementById('counter');
-   otazkahtml.innerText = otazka.pom;
-   pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
+
+   if (otazka.dlzka === 0) {
+     otazkahtml.innerText = "Koniec";
+     removeTopCard();
+   }
+   else {
+     pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
+     otazkahtml.innerText = otazka.pom;
+     removeTopCard();
+   }
 
  });
+
+socket.on('setOtazok', titulnaOtazka =>{
+  console.log(titulnaOtazka);
+  novyDeck(titulnaOtazka.dlzka);
+
+  console.log(titulnaOtazka);
+  //console.log(titulnaOtazka.counter);
+  const otazkahtml = document.getElementById(`karta-${titulnaOtazka.counter}`);
+  const pocitadlohtml = document.getElementById('counter');
+  otazkahtml.innerText = titulnaOtazka.pom;
+  pocitadlohtml.innerText = "Otázka: " + titulnaOtazka.counter + " Zostáva: " + titulnaOtazka.dlzka;
+
+});
 
  function vyberSetOtazok(otazky){
    socket.emit('setOtazok', otazky);
@@ -132,4 +158,78 @@ function generujIdIzby(length){
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+//
+//
+//
+//
+//
+var $deck = $('.deck');
+
+window.setTimeout(function () {
+    $deck.addClass('is-scattered');
+}, 1);
+
+var removeTopCard = function () {
+    var $child = $deck.children(':last-child');
+    $child.addClass('is-offscreen--l');
+    window.setTimeout(function () {
+        $child.remove();
+    }, 500);
+}
+
+var addNewCard = function () {
+    var $card = $('<div>', {
+        html: '<div class="karta is-offscreen--r">'
+            + '<header class="card-header">'
+            + ' <h3>Card Title</h3>'
+            + '</header>'
+            + '<div class="card-body">'
+            + '  Body Content'
+            + '</div>'
+            + '<footer class="card-footer">'
+            + '  footer text'
+            + '</footer>'
+    }).children(1);
+    console.log('card', $card);
+    $deck.append($card);
+    window.setTimeout(function () {
+        $card.removeClass('is-offscreen--r');
+    }, 1);
+};
+
+$('body').on('click', function () {
+    console.log('click');
+    //addNewCard();
+});
+
+// $('.deck').on('click', function (e) {
+//   socket.emit('otazka','next');
+//     e.preventDefault();
+//     e.stopPropagation();
+//     console.log('click');
+// });
+
+
+function novyDeck(pocetKariet){
+  for (var i = pocetKariet + 1; i >= 0 ; i--) {
+    var $card = $('<div>', {
+        html: '<div class="karta" >'
+            + '<header class="card-header">'
+            + ' <h3>Card Title</h3>'
+            + '</header>'
+            + `<div class="card-body" id="karta-${i}">`
+            + '  Body Content'
+            + '</div>'
+            + '<footer class="card-footer">'
+            + '  footer text'
+            + '</footer>'
+    }).children(1);
+    console.log('card', $card);
+
+    $deck.append($card);
+  }
+}
+function glupa(){
+
 }
