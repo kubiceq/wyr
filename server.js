@@ -1,12 +1,19 @@
 
-let otazky = ["testovacia otazka",
+var otazky = ["testovacia otazka",
 "druha otazka",
 "tretia otazka"]
 
+const defaultOtazky = otazky;
 
-
-let counter = 0;
-let ktoJeNaTahu = 0;
+var pocitadla = [];
+var premennePreIzby = {
+  room : 0,
+  counter: 0,
+  ktoJeNaTahu: 0,
+  otazky:[]
+}
+// var counter = 0;
+// var ktoJeNaTahu = 0;
 
 const path = require('path');
 const http = require('http');
@@ -19,12 +26,10 @@ const {
   userLeave,
   getRoomUsers,
   jeNaTahu,
-  getNumberOfRoomUsers
+  getNumberOfRoomUsers,
+  getIndexPolaIzba
 } = require('./utils/users');
 const getOtazky = require('./src/otazky/otazky');
-
-
-
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -32,34 +37,33 @@ const io = socketio(server);
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-const botName = 'RoboAdmin';
+const botName = 'RoboAdmin';//netreba
 
 // Run when client connects
 io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
-    console.log(user);
     socket.join(user.room);
 
-    // Welcome current user
-    socket.emit('message', formatMessage(botName, 'Vitaj v chate'));
+    // // Welcome current user
+    // socket.emit('message', formatMessage(botName, 'Vitaj v chate'));
 
-    // Broadcast when a user connects
-    socket.broadcast
-      .to(user.room)
-      .emit(
-        'message',
-        formatMessage(botName, `${user.username} sa pripojil/a`)
-      );
+    // // Broadcast when a user connects
+    // socket.broadcast
+    //   .to(user.room)
+    //   .emit(
+    //     'message',
+    //     formatMessage(botName, `${user.username} sa pripojil/a`)
+    //   );
 
-    // Send users and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room)
-    });
+    //prida objekt s pocitadlami, ak uz pre danu izbu neexistuje
+    pridajPocitadloPreMiestnost(user.room);
+    //nastavi otazky na zaciatok iba ak sa pripojil prvy hrac
+    socket.emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
 
 
-      jeNaTahu(getNumberOfRoomUsers(user.room)-1);
+    //nastavi na jeNaTahu toho, kto sa poslendny pripoji
+    jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
 
     // Send users and room info
     io.to(user.room).emit('roomUsers', {
@@ -68,19 +72,24 @@ io.on('connection', socket => {
     });
   });
 
+  //pri dalsej otazke sa vygeneruje nahodne cislo, vezme sa otazka a pomenia sa indexy
   socket.on('otazka', msg => {
     const user = getCurrentUser(socket.id);
-    console.log(msg);
-    //io.to(user.room).emit('otazka',getRoomUsers(user.room));//testing potom treba vymenit za spodny
-    io.to(user.room).emit('otazka', novaOtazka());
-    ktoJeNaTahu = ktoJeNaTahu + 1;
-    console.log("ktoJeNaTahu ");
-    console.log(ktoJeNaTahu);
+    var merace = getPocitadla(user.room);
+    //poslem novu otazku
+    io.to(user.room).emit('otazka', novaOtazka(user.room));
 
+    //zmenim kto je na tahu
+    var ktoJeNaTahu = merace.ktoJeNaTahu;
+    ktoJeNaTahu = ktoJeNaTahu + 1;
     if (ktoJeNaTahu === getNumberOfRoomUsers(user.room)) {
       ktoJeNaTahu = 0;
     }
-    jeNaTahu(ktoJeNaTahu)
+    jeNaTahu(user.room, ktoJeNaTahu);
+    merace.ktoJeNaTahu = ktoJeNaTahu;
+    var indexPocitadla = pocitadla.findIndex(x => x.room == user.room);
+    pocitadla[indexPocitadla] = merace;
+    console.log('merace',merace);
     // Send users and room info
     io.to(user.room).emit('roomUsers', {
       room: user.room,
@@ -88,37 +97,32 @@ io.on('connection', socket => {
     });
   });
 
-  socket.on('novaIzba', msg => {
-    console.log(msg);
-  });
 
   socket.on('setOtazok', msg => {
     const user = getCurrentUser(socket.id);
-    console.log(msg);
+    var merace = getPocitadla(user.room);
+
     if (msg === "prvySetOtazok") {
-        otazky = getOtazky('prvySetOtazok');
-        //io.to(user.room).emit('otazka', titulnaOtazka("Prvy Set"));
+        merace.otazky = getOtazky('prvySetOtazok');
     }
     else if (msg === "druhySetOtazok") {
-        otazky = getOtazky('druhySetOtazok');
-        //io.to(user.room).emit('otazka', titulnaOtazka("Druhy Set"));
+        merace.otazky = getOtazky('druhySetOtazok');
     }
     else if (msg === "tretiSetOtazok") {
-        otazky = getOtazky('tretiSetOtazok');
-      //io.to(user.room).emit('otazka', titulnaOtazka("Treti Set"));
+        merace.otazky = getOtazky('tretiSetOtazok');
     }
-    io.to(user.room).emit('setOtazok',  titulnaOtazka("Novy Set"));
+    io.to(user.room).emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
 
-    console.log(otazky);
-    //io.to(user.room).emit('otazka', titulnaOtazka("Novy Set"));
+
+    var indexPocitadla = pocitadla.findIndex(x => x.room == user.room);
+    pocitadla[indexPocitadla] = merace;
+
+    console.log('vsetky pocitadla:',pocitadla);
   });
 
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
-
-    console.log(msg);
-
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
 
@@ -149,23 +153,80 @@ function getRandomInt(min, max) {
 }
 
 //najde nahodnu otazku a vrati otazku, pocet doteraz otazok a pocet vsetkych otazok
-function novaOtazka() {
-  counter = counter + 1;
-  let index = getRandomInt(0,otazky.length);
-  let dlzka = otazky.length;
-  let pom =  otazky[index];
-  otazky.splice(index,1);
-  console.log(pom);
+function novaOtazka(room) {
+
+  //najdi udaje pre konkretnu miestnost
+  var merac = getPocitadla(room);
+
+  //vloz udaje do konkretnych premennych a urob co treba
+  var counter = merac.counter + 1;
+  var index = getRandomInt(0,merac.otazky.length);
+  var dlzka = merac.otazky.length;
+
+  var otazkyIzba = [];
+  otazkyIzba = getOtazkyIzba(room);
+  var pom = otazkyIzba[index];
+  var poleOtazok = merac.otazky;
+  //uprav udaje pre objekt merac, aby sme ho mohli zapisat nazad do pola
+  otazkyIzba.splice(index,1);
+  merac.counter = counter;
+
+  //najdi index objektu pre udaje v poli a nahrad ho upravenym
+  merac.otazky = poleOtazok;
+  var indexPocitadla = pocitadla.findIndex(x => x.room == room);
+  pocitadla[indexPocitadla] = merac;
+
+  //return udaje pre otazku
   return {pom, counter, dlzka};
 }
 
 //pri pouziti noveho balicku vrati otazku so specifickym nazvom a nastavi counter na 0
-function titulnaOtazka(titulok) {
-  counter = 0;
-  let dlzka = otazky.length;
-  pom = titulok;
+function titulnaOtazka(titulok,room) {
+  setCounterIzba(room,0);
+  var counter = 0;
+  var dlzka = getOtazkyIzba(room).length;
+  var pom = titulok;
   return {pom, counter, dlzka};
 }
+
+function getPocitadla(room){
+ return pocitadla.find(pocitadla => pocitadla.room === room);
+}
+
+function setPocitadlo(room, counter, ktoJeNaTahu ){
+const pom = pocitadla.find(pocitadlo => pocitadlo.room === room);
+pom.counter = counter;
+pom.ktoJeNaTahu = ktoJeNaTahu;
+}
+
+function pridajPocitadloPreMiestnost(room){
+  const pom = pocitadla.find(pocitadlo => pocitadlo.room === room);
+  if (pom === undefined) {
+    pocitadla.push({
+      room : room,
+      counter: 0,
+      ktoJeNaTahu: 0,
+      otazky:defaultOtazky
+    })
+  }
+}
+
+
+function setOtazkyIzba(otazky,room) {
+  var index = pocitadla.findIndex(poc => poc.room === room);
+  pocitadla[index].otazky = otazky;
+}
+
+function getOtazkyIzba(room) {
+  var index = pocitadla.findIndex(poc => poc.room === room);
+  return pocitadla[index].otazky;
+}
+
+function setCounterIzba(room,_counter) {
+  var index = pocitadla.findIndex(poc => poc.room === room);
+  pocitadla[index].counter = _counter;
+}
+
 
 
 

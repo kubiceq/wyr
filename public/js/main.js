@@ -5,17 +5,26 @@ const userList = document.getElementById('users');
 
 
 // Get username and room from URL
-const { username, room } = Qs.parse(location.search, {
+const {
+  username,
+  room
+} = Qs.parse(location.search, {
   ignoreQueryPrefix: true
 });
 
 const socket = io();
 
 // Join chatroom
-socket.emit('joinRoom', { username, room });
+socket.emit('joinRoom', {
+  username,
+  room
+});
 
 // Get room and users
-socket.on('roomUsers', ({ room, users }) => {
+socket.on('roomUsers', ({
+  room,
+  users
+}) => {
   outputRoomName(room);
   outputUsers(users);
 });
@@ -23,47 +32,27 @@ socket.on('roomUsers', ({ room, users }) => {
 // Message from server
 socket.on('message', message => {
   console.log(message);
-  outputMessage(message);
-
-  // Scroll down
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  // outputMessage(message);
+  //
+  // // Scroll down
+  // chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
-// Message submit
-chatForm.addEventListener('submit', e => {
-  e.preventDefault();
-
-  // Get message text
-  let msg = e.target.elements.msg.value;
-
-  msg = msg.trim();
-
-  if (!msg){
-    return false;
-  }
-
-  // Emit message to server
-  socket.emit('chatMessage', msg);
-
-  // Clear input
-  e.target.elements.msg.value = '';
-  e.target.elements.msg.focus();
-});
 
 // Output message to DOM
 function outputMessage(message) {
-  const div = document.createElement('div');
-  div.classList.add('message');
-  const p = document.createElement('p');
-  p.classList.add('meta');
-  p.innerText = message.username;
-  p.innerHTML += `<span>${message.time}</span>`;
-  div.appendChild(p);
-  const para = document.createElement('p');
-  para.classList.add('text');
-  para.innerText = message.text;
-  div.appendChild(para);
-  document.querySelector('.chat-messages').appendChild(div);
+  // const div = document.createElement('div');
+  // div.classList.add('message');
+  // const p = document.createElement('p');
+  // p.classList.add('meta');
+  // p.innerText = message.username;
+  // p.innerHTML += `<span>${message.time}</span>`;
+  // div.appendChild(p);
+  // const para = document.createElement('p');
+  // para.classList.add('text');
+  // para.innerText = message.text;
+  // div.appendChild(para);
+  // document.querySelector('.chat-messages').appendChild(div);
 }
 
 // Add room name to DOM
@@ -75,13 +64,13 @@ function outputRoomName(room) {
 //okrem toho oznaci momentalne aktivneho usera a tomu povoli stlacit kartu, ostatnym to zakaze
 function outputUsers(users) {
   userList.innerHTML = '';
-  const kopka1 = document.getElementById('kopka1Btn');
+
   const deck = document.getElementById('deck');
-  users.forEach(user=>{
+  users.forEach(user => {
     const li = document.createElement('li');
 
     if (user.jeNaTahu) {
-        li.classList.toggle("aktivnyUser");
+      li.classList.toggle("aktivnyUser");
     }
 
     li.innerText = user.username;
@@ -91,55 +80,51 @@ function outputUsers(users) {
   const thisUser = users.find(user => user.id === socket.id);
   const deckhtml = document.getElementById('deck');
   if (thisUser.jeNaTahu) {
-    kopka1.disabled = false
-    deckhtml.setAttribute('onclick','novaOtazka()')
+    deckhtml.setAttribute('onclick', 'novaOtazka()')
+  } else {
+    deckhtml.setAttribute('onclick', 'glupa()')
   }
-  else {
-    kopka1.disabled = true;
-    deckhtml.setAttribute('onclick','glupa()')
+}
+
+function novaOtazka() {
+  console.log("niekto si vytiahol kartu");
+  socket.emit('otazka', 'next');
+}
+
+function generujIdIzby(length) {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
- }
 
- function novaOtazka() {
-   console.log("niekto si vytiahol kartu");
-   socket.emit('otazka','next');
- }
-
-function generujIdIzby(length){
-     var result           = '';
-     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-     var charactersLength = characters.length;
-     for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-     }
-
-     socket.emit('novaIzba',result);
-     console.log(result);
-     return result;
-   }
+  socket.emit('novaIzba', result);
+  console.log(result);
+  return result;
+}
 
 
 
- socket.on('otazka', otazka =>{
+socket.on('otazka', otazka => {
 
-   console.log(otazka);
-   console.log(otazka.counter);
-   const otazkahtml = document.getElementById(`karta-${otazka.counter}`);
-   const pocitadlohtml = document.getElementById('counter');
+  console.log(otazka);
+  console.log(otazka.counter);
+  const otazkahtml = document.getElementById(`karta-${otazka.counter}`);
+  const pocitadlohtml = document.getElementById('counter');
 
-   if (otazka.dlzka === 0) {
-     otazkahtml.innerText = "Koniec";
-     removeTopCard();
-   }
-   else {
-     pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
-     otazkahtml.innerText = otazka.pom;
-     removeTopCard();
-   }
+  if (otazka.dlzka === 0) {
+    otazkahtml.innerText = "Koniec";
+    removeTopCard();
+  } else {
+    pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
+    otazkahtml.innerText = otazka.pom;
+    removeTopCard();
+  }
 
- });
+});
 
-socket.on('setOtazok', titulnaOtazka =>{
+socket.on('setOtazok', titulnaOtazka => {
   console.log(titulnaOtazka);
   novyDeck(titulnaOtazka.dlzka);
 
@@ -152,56 +137,53 @@ socket.on('setOtazok', titulnaOtazka =>{
 
 });
 
- function vyberSetOtazok(otazky){
-   socket.emit('setOtazok', otazky);
- }
+function vyberSetOtazok(otazky) {
+  socket.emit('setOtazok', otazky);
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-//
-//
-//
-//
-//
+//************************************************************************************************************************
+
 var $deck = $('.deck');
 
-window.setTimeout(function () {
-    $deck.addClass('is-scattered');
+window.setTimeout(function() {
+  $deck.addClass('is-scattered');
 }, 1);
 
-var removeTopCard = function () {
-    var $child = $deck.children(':last-child');
-    $child.addClass('is-offscreen--l');
-    window.setTimeout(function () {
-        $child.remove();
-    }, 500);
+var removeTopCard = function() {
+  var $child = $deck.children(':last-child');
+  $child.addClass('is-offscreen--l');
+  window.setTimeout(function() {
+    $child.remove();
+  }, 500);
 }
 
-var addNewCard = function () {
-    var $card = $('<div>', {
-        html: '<div class="karta is-offscreen--r">'
-            + '<header class="card-header">'
-            + ' <h3>Card Title</h3>'
-            + '</header>'
-            + '<div class="card-body">'
-            + '  Body Content'
-            + '</div>'
-            + '<footer class="card-footer">'
-            + '  footer text'
-            + '</footer>'
-    }).children(1);
-    console.log('card', $card);
-    $deck.append($card);
-    window.setTimeout(function () {
-        $card.removeClass('is-offscreen--r');
-    }, 1);
+var addNewCard = function() {
+  var $card = $('<div>', {
+    html: '<div class="karta is-offscreen--r">' +
+      '<header class="karta-header">' +
+      ' <h3>Card Title</h3>' +
+      '</header>' +
+      '<div class="karta-body">' +
+      '  Body Content' +
+      '</div>' +
+      '<footer class="karta-footer">' +
+      '  footer text' +
+      '</footer>'
+  }).children(1);
+  console.log('card', $card);
+  $deck.append($card);
+  window.setTimeout(function() {
+    $card.removeClass('is-offscreen--r');
+  }, 1);
 };
 
-$('body').on('click', function () {
-    console.log('click');
-    //addNewCard();
-});
+// $('body').on('click', function () {
+//     console.log('click');
+//     //addNewCard();
+// });
 
 // $('.deck').on('click', function (e) {
 //   socket.emit('otazka','next');
@@ -211,25 +193,28 @@ $('body').on('click', function () {
 // });
 
 
-function novyDeck(pocetKariet){
-  for (var i = pocetKariet + 1; i >= 0 ; i--) {
+function novyDeck(pocetKariet) {
+  $deck.innerText ='';
+
+  for (var i = pocetKariet + 1; i >= 0; i--) {
     var $card = $('<div>', {
-        html: '<div class="karta" >'
-            + '<header class="card-header">'
-            + ' <h3>Card Title</h3>'
-            + '</header>'
-            + `<div class="card-body" id="karta-${i}">`
-            + '  Body Content'
-            + '</div>'
-            + '<footer class="card-footer">'
-            + '  footer text'
-            + '</footer>'
+      html: '<div class="karta" >' +
+        '<header class="karta-header">' +
+        ' <h3>Would You Rather</h3>' +
+        '</header>' +
+        `<div class="karta-body" id="karta-${i}">` +
+        '  Body Content' +
+        '</div>' +
+        '<footer class="karta-footer">' +
+        '  footer text' +
+        '</footer>'
     }).children(1);
     console.log('card', $card);
 
     $deck.append($card);
   }
 }
-function glupa(){
+
+function glupa() {
 
 }

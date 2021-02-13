@@ -35,10 +35,16 @@ function getNumberOfRoomUsers(room){
   return pom;
 }
 
-function jeNaTahu(index){
-  console.log(index);
-  id = users[index].id;
+function jeNaTahu(room,index){
+  let poleHracov = [];
   for (hrac of users) {
+    if (hrac.room === room) {
+      poleHracov.push(hrac);
+    }
+  }
+
+  id = poleHracov[index].id;
+  for (hrac of poleHracov) {
     if(hrac.id === id){
       hrac.jeNaTahu = true;
     }
@@ -48,11 +54,24 @@ function jeNaTahu(index){
   }
 }
 
+function getIndexPolaIzba(room, hracId){
+  let poleHracov = [];
+  for (hrac of users) {
+    if (hrac.room === room) {
+      poleHracov.push(hrac);
+    }
+  }
+  return poleHracov.findIndex(user => user.id === hracId);
+}
+
+
+
 module.exports = {
   userJoin,
   getCurrentUser,
   userLeave,
   getRoomUsers,
   jeNaTahu,
-  getNumberOfRoomUsers
+  getNumberOfRoomUsers,
+  getIndexPolaIzba
 };
