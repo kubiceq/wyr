@@ -194,7 +194,9 @@ var addNewCard = function() {
 
 
 function novyDeck(pocetKariet) {
-  $deck.innerText ='';
+  console.log(document.getElementById('deck').innerHTML);
+  document.getElementById('deck').innerHTML = '';
+  console.log($deck.innerHTML);
 
   for (var i = pocetKariet + 1; i >= 0; i--) {
     var $card = $('<div>', {
