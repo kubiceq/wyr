@@ -15,6 +15,7 @@
 }
 .navbar-custom{
 	background-color: var(--farbaA);
+	color: var(--farbaD);
 }
 
 body {
@@ -134,6 +135,7 @@ a {
 	text-align: center;
 	margin-right: auto;
 	margin-bottom: 2rem;
+	color: var(--farbaD);
 }
 .bocnyPanel{
 	border: 1px solid #78679C;
@@ -279,5 +281,5 @@ Copyright (c) 2021 by Jon Beebe https://codepen.io/somethingkindawierd/pen/Flbhv
     font-size: 0.9rem;
     text-align: center;
     padding-bottom: 1rem;
-    color: #b3b3b3;
+    color: var(--farbaD);
 }
