@@ -118,8 +118,10 @@ let prvySetOtazok = ["Would you rather Have a dog with a cat’s personality or 
 " Would you rather sleep with your girlfriend or get paid $10000 not to?",
 " Would you rather have an obsessed girlfriend or a hot, cheating one?",
 " Would you rather Be poor and good looking or wealthy and ugly?  Would you rather Be hairy or completely bald?",
-" Would you rather Be 4’5″ or 7’7″?",
-" Would you rather Be blind or deaf?",
+" Would you rather Be 140cm or 300cm?"];
+
+const stvrtySetOtazok = [
+    " Would you rather Be blind or deaf?",
 " Would you rather Be short and well built or tall and fat?",
 " Would you rather Take a guaranteed $100,000 or a 50/50 chance at $1,000,000?",
 " Would you rather Eat healthily or exercise regularly?",
@@ -196,6 +198,64 @@ let prvySetOtazok = ["Would you rather Have a dog with a cat’s personality or 
 "Would you rather walk in on your parents having sex or have your parents walk in on you having sex?"
 ];
 
+  const mLTdirty = [
+    " Who’s most likely to have sex with a stranger?",
+    " Who’s most likely to ask their friends a bunch of stupid questions?",
+    " Who’s most likely to get caught having sex in a dressing room?",
+    " Who’s most likely to get caught having sex at work?",
+    " Who’s most likely to get back together with their ex?",
+    " Who’s most likely to tell a lie just for the fun of it?",
+    " Who’s most likely to become a billionaire dom/domme?",
+    " Who’s most likely to urinate in a swimming pool and get caught?",
+    " Who’s most likely to prank call a stranger?",
+    " Who’s most likely to score with their college professor?",
+    " Who’s most likely to have a one night stand and forget the person’s name?",
+    " Who’s most likely to have a secret porn addiction?",
+    " Who’s most likely to get drunk and have a one night stand?",
+    " Who’s most likely to get a face tattoo?",
+    " Who’s most likely to get a genital tattoo?",
+    " Who’s most likely to try the entire Kama Sutra",
+    " Who’s most likely to become an amateur porn star?",
+    " Who’s most likely to convert to another religion just to have sex with someone?",
+    " Who’s most likely to have a threesome?",
+    " Who’s most likely to get busted by cops while with prostitutes?",
+    " Who’s most likely to get married and divorced 10 times?",
+    " Who’s most likely to become a meth head?",
+    " Who’s most likely to cosplay as a Power Puff Girl?",
+    " Who’s most likely to have sex with an octogenarian (80-89 years old)?",
+    " Who’s most likely to get fired at work for looking at porn?",
+    " Who’s most likely to get breast implants or a penis implant?",
+    " Who’s most likely to have a Viagra prescription?",
+    " Who’s most likely to have a baby and not even realize they’re pregnant?",
+    " Who’s most likely to ruin a threesome because of making stupid comments?",
+    " Who’s most likely to end up homeless?",
+    " Who’s most likely to change their sex?",
+    " Who’s most likely to actually be really sexy as an opposite gender?",
+    " Who’s most likely to cheat on their significant other with a midget?",
+    " Who’s most likely to trade sex for rent money?",
+    " Who’s most likely to have a weird and disturbing sexual fetish?",
+    " Who’s most likely to go to jail for conspiracy to commit murder?",
+    " Who’s most likely to go to jail for indecent exposure?",
+    " Who’s most likely to go to jail for annoying a police officer?",
+    " Who’s most likely to try to score at someone’s funeral?",
+    " Who’s most likely to become a famous meme?",
+    " Who’s most likely to hypnotize someone just for sex?",
+    " Who’s most likely to sleep with Andy Dick?",
+    " Who’s most likely to confess all their sexual wins to a priest?",
+    " Who’s most likely to sleep with a total loser out of pure desperation?",
+    " Who’s most likely to be shy on the outside but a total perv behind closed doors?",
+    " Who’s most likely to leave their spouse for someone they met playing Fortnite?",
+    " Who’s most likely to have a sex doll in their closet?",
+    " Who’s most likely to get caught trying to join the mile high club?",
+    " Who’s most likely to try to score with their best friend’s mom or dad?",
+    " Who’s most likely to father or mother nine children?",
+    " Who’s most likely to get banned from Facebook?",
+    " Who’s most likely to join a weird sex cult and then say, “It’s not a cult!”",
+    " Who’s most likely to get cheated on?",
+    " Who’s most likely to have to go to the ER for an embarrassing sex toy mishap?",
+    " Who’s most likely to get rejected by a prostitute?"
+  ];
+
 function getOtazky(nazov){
 
   switch (nazov) {
@@ -207,6 +267,12 @@ function getOtazky(nazov){
       break;
     case 'tretiSetOtazok':
         return tretiSetOtazok
+      break;
+    case 'stvrtySetOtazok':
+      return stvrtySetOtazok
+      break;
+    case 'mLTdirty':
+      return mLTdirty
       break;
 
     default:

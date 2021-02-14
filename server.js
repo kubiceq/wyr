@@ -1,20 +1,11 @@
 
-var otazky = ["testovacia otazka",
-"druha otazka",
-"tretia otazka"]
-
-const defaultOtazky = otazky;
+const defaultOtazky = [
+    "Hráč so zeleným pásikom môže kliknúť na kartu a vybrať ďalšiu kartu",
+    "Ak niekto uvidí na karte text: Body Content, môže skúsiť Synchronizuj na hornej lište",
+    "Vyberte si otázky v sekcií Iné Balíčky"
+]
 
 var pocitadla = [];
-var premennePreIzby = {
-  room : 0,
-  counter: 0,
-  ktoJeNaTahu: 0,
-  otazky:[]
-}
-// var counter = 0;
-// var ktoJeNaTahu = 0;
-
 const path = require('path');
 const http = require('http');
 const express = require('express');
@@ -44,31 +35,16 @@ io.on('connection', socket => {
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
     socket.join(user.room);
-
-    // // Welcome current user
-    // socket.emit('message', formatMessage(botName, 'Vitaj v chate'));
-
-    // // Broadcast when a user connects
-    // socket.broadcast
-    //   .to(user.room)
-    //   .emit(
-    //     'message',
-    //     formatMessage(botName, `${user.username} sa pripojil/a`)
-    //   );
-
-    //prida objekt s pocitadlami, ak uz pre danu izbu neexistuje
-    pridajPocitadloPreMiestnost(user.room);
-    //nastavi otazky na zaciatok iba ak sa pripojil prvy hrac
-    socket.emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
-
-
-    //nastavi na jeNaTahu toho, kto sa poslendny pripoji
-    jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
-
-    // Send users and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room)
+      //prida objekt s pocitadlami, ak uz pre danu izbu neexistuje
+      pridajPocitadloPreMiestnost(user.room);
+      //nastavi otazky na zaciatok iba ak sa pripojil prvy hrac
+      socket.emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
+      //nastavi na jeNaTahu toho, kto sa poslendny pripoji
+      jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
     });
   });
 
@@ -110,6 +86,12 @@ io.on('connection', socket => {
     }
     else if (msg === "tretiSetOtazok") {
         merace.otazky = getOtazky('tretiSetOtazok');
+    }
+    else if (msg === "stvrtySetOtazok") {
+      merace.otazky = getOtazky('stvrtySetOtazok');
+    }
+    else if (msg === "mLTdirty") {
+      merace.otazky = getOtazky('mLTdirty');
     }
     io.to(user.room).emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
 
@@ -171,8 +153,7 @@ function novaOtazka(room) {
   var index = getRandomInt(0,merac.otazky.length);
   var dlzka = merac.otazky.length;
 
-  var otazkyIzba = [];
-  otazkyIzba = getOtazkyIzba(room);
+  var otazkyIzba = getOtazkyIzba(room);
   var pom = otazkyIzba[index];
   var poleOtazok = merac.otazky;
   //uprav udaje pre objekt merac, aby sme ho mohli zapisat nazad do pola
