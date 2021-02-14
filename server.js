@@ -126,6 +126,13 @@ io.on('connection', socket => {
     io.to(user.room).emit('message', formatMessage(user.username, msg));
   });
 
+  socket.on('refresh',msg =>{
+    console.log('refresh');
+    const user = getCurrentUser(socket.id);
+    let pom = 'please';
+    socket.to(user.room).emit('refresh',pom);
+  });
+
   // Runs when client disconnects
   socket.on('disconnect', () => {
     const user = userLeave(socket.id);
@@ -143,6 +150,7 @@ io.on('connection', socket => {
       });
     }
   });
+
 
 });
 

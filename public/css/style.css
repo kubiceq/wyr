@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 :root {
-	--dark-color-a: #667aff;
-	--dark-color-b: #7386ff;
-	--light-color: #e6e9ff;
-	--success-color: #5cb85c;
-	--error-color: #d9534f;
+	--farbaA: #78679C;
+	--farbaB: #E7DBFF;
+	--farbaC: #C4B2E9;
+	--farbaD: #9c9857;
+	--farbaE: #fff996;
 }
 
 * {
@@ -13,12 +13,26 @@
 	margin: 0;
 	padding: 0;
 }
+.navbar-custom{
+	background-color: var(--farbaA);
+}
 
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	background: var(--light-color);
+	background: var(--farbaB);
 	margin: 20px;
+}
+.hra-telo{
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	background: var(--farbaB);
+	margin: 20px;
+}
+
+h1{
+	font-size: 20px;
+	color: var(--farbaD);
 }
 
 ul {
@@ -29,14 +43,6 @@ a {
 	text-decoration: none;
 }
 
-.btn {
-	cursor: pointer;
-	padding: 5px 15px;
-	background: var(--light-color);
-	color: var(--dark-color-a);
-	border: 0;
-	font-size: 17px;
-}
 
 
 /* Join Page */
@@ -49,14 +55,22 @@ a {
 .join-header {
 	text-align: center;
 	padding: 20px;
-	background: var(--dark-color-a);
+	background: var(--farbaA);
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+}
+.btn{
+	cursor: pointer;
+	padding: 5px 15px;
+	background: var(--farbaB);
+	color: var(--farbaA);
+	border: 0;
+	font-size: 17px;
 }
 
 .join-main {
 	padding: 30px 40px;
-	background: var(--dark-color-b);
+	background: var(--farbaC);
 }
 
 .join-main p {
@@ -120,6 +134,17 @@ a {
 	text-align: center;
 	margin-right: auto;
 	margin-bottom: 2rem;
+}
+.bocnyPanel{
+	border: 1px solid #78679C;
+	border-radius: .5rem;
+}
+.bocnyPanel p{
+	margin-bottom: 5px;
+}
+.bocnyPanel-nadpis{
+	color: var(--farbaD);
+	font-size: 20px;
 }
 .aktivnyUser{
 	background-color: green;
@@ -215,6 +240,8 @@ Copyright (c) 2021 by Jon Beebe https://codepen.io/somethingkindawierd/pen/Flbhv
     background: white;
     box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.5);
     transition: all 0.5s ease-in-out;
+	background-color: var(--farbaE);
+	font-size: 20px;
 }
 
 .body-message {

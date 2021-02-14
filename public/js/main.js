@@ -170,7 +170,7 @@ var addNewCard = function() {
       '  Body Content' +
       '</div>' +
       '<footer class="karta-footer">' +
-      '  footer text' +
+      '  ®ruffaid' +
       '</footer>'
   }).children(1);
   console.log('card', $card);
@@ -208,7 +208,7 @@ function novyDeck(pocetKariet) {
         '  Body Content' +
         '</div>' +
         '<footer class="karta-footer">' +
-        '  footer text' +
+        '  ®ruffaid' +
         '</footer>'
     }).children(1);
     console.log('card', $card);
@@ -220,3 +220,13 @@ function novyDeck(pocetKariet) {
 function glupa() {
 
 }
+
+function refreshAll() {
+  socket.emit('refresh','demand');
+  location.reload();
+  console.log('reload pushed');
+}
+socket.on('refresh',msg =>{
+  console.log('reload',msg);
+  location.reload();
+});

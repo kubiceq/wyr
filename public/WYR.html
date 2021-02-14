@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
-<body>
+<body class="hra-telo">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
     <a class="navbar-brand" href="index.html">Domov</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -38,13 +38,13 @@
             <p class="dropdown-item" onclick="">StvrtyBalicek</p>
           </div>
         </li>
+        <li class="nav-item">
+          <a onclick="refreshAll()" class="btn">Synchronizuj</a>
+        </li>
       </ul>
     </div>
   </nav>
-  <div class="jumbotron text-center">
-    <h1>Would You Rather</h1>
 
-  </div>
   <div class="row">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
@@ -55,10 +55,10 @@
 
   <div class="row">
     <div class="col-sm-3">
-      <div>
-        <h2>Kód miestnosti :</h2>
-        <h1 id="room-name"></h1>
-        <h3>Prítomí:</h3>
+      <div class="bocnyPanel">
+        <p class="bocnyPanel-nadpis">Kód miestnosti :</p>
+        <p id="room-name"></p>
+        <p class="bocnyPanel-nadpis">Prítomí:</p>
         <ul id="users"></ul>
       </div>
     </div>
