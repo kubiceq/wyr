@@ -206,7 +206,7 @@ function novyDeck(pocetKariet) {
     var $card = $('<div>', {
       html: '<div class="karta" >' +
         '<header class="karta-header">' +
-        ' <h3>Would You Rather</h3>' +
+        ' <h3>Hrajkanie</h3>' +
         '</header>' +
         `<div class="karta-body" id="karta-${i}">` +
         '  Body Content' +
