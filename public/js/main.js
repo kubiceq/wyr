@@ -112,16 +112,20 @@ socket.on('otazka', otazka => {
   console.log(otazka.counter);
   const otazkahtml = document.getElementById(`karta-${otazka.counter}`);
   const pocitadlohtml = document.getElementById('counter');
-
-  if (otazka.dlzka === 0) {
-    otazkahtml.innerText = "Koniec";
-    removeTopCard();
-  } else {
-    pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
-    otazkahtml.innerText = otazka.pom;
+  if (otazkahtml.innerText === null ){
     removeTopCard();
   }
+  else {
 
+    if (otazka.dlzka === 0) {
+      otazkahtml.innerText = "Koniec";
+      removeTopCard();
+    } else {
+      pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
+      otazkahtml.innerText = otazka.pom;
+      removeTopCard();
+    }
+  }
 });
 
 socket.on('setOtazok', titulnaOtazka => {
