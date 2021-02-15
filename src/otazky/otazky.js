@@ -256,6 +256,64 @@ const stvrtySetOtazok = [
     " Who’s most likely to get rejected by a prostitute?"
   ];
 
+  const tagFriend1 = [
+    "Do you often watch TV?",
+    "What program do you prefer to watch?",
+    "What’s your favorite TV show?",
+    "Can you laugh with a series?",
+    "Would you dare to report on the quiz?",
+    "What’s your favorite kind of sandwich?",
+    "Whether you prefer to go to the cinema or watch movies at home?",
+    "Did you read any good book lately?",
+    "Is there soon some concert to which you like to go?",
+    "Do you dance on outings or parties?",
+    "Are you watching the news?",
+    "What is your ideal car?",
+    "What is your dream job?",
+    "Which three places would like to visit?",
+    "What is your favorite season?",
+    "Did you try the Mexican (Japanese or Chinese) food?",
+    "Do you have a pet?",
+    "Do you remember your favorite subjects and teachers from the school?",
+    "What are your favorite foods and dishes?",
+    "Do you like to cook?",
+    "Do you often visit restaurants?",
+    "Do you surf the internet often?",
+    "Where would you like to live?",
+    "Where does your perfect holiday pass?",
+    "Can you describe your bedroom?",
+    "What historical person would you like to interview?",
+    "What are your three favorite band’s musicians?",
+    "What kind of clothing would you not put under any circumstances?",
+    "What is freedom according to you?",
+    "What is your favorite book?",
+    "Do you often think about what happens to you and what you feel?",
+    "What super power would you like to have?",
+    "What four series are your favorites?",
+    "What three things you appreciate most about some person?",
+    "How would you like to be in the future?",
+    "If you were an animal, what would you be?",
+    "If you could travel anywhere in the world where would you go? why?",
+    "What song would serve to summarize your personality? Why?",
+    "How would you describe your friends?",
+    "What three types of job you would like to exercise?",
+    "What ability would you like to improve to become fully mastered?",
+    "If you could only keep five phone numbers of people outside your family, what would they be?",
+    "What kind of person would you be afraid of?",
+    "What is the craziest you’ve done?",
+    "If you won the lottery? What is the first thing you would buy?",
+    "On what topic you would like for people to ask you, to know you better?",
+    "Do you wear/lose an umbrella?",
+    "Do you remember your dreams in the morning?",
+    "What is the most interesting story from your childhood?",
+    "What year was your happiest and why?",
+    "Do you like brownies and chocolate?",
+    "Do you prefer rainy or snowy days?",
+    "When is your birthday?",
+    "Do you have a profile on Facebook or another social network?",
+    "Would you deal with extreme sports, for example, bungee jump?"
+  ];
+
 function getOtazky(nazov){
 
   switch (nazov) {
@@ -273,6 +331,9 @@ function getOtazky(nazov){
       break;
     case 'mLTdirty':
       return mLTdirty
+      break;
+    case 'tagFriend1':
+      return tagFriend1
       break;
 
     default:

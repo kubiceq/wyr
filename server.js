@@ -10,7 +10,7 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
-var roomdata = require('roomdata');
+var roomdata = require('roomdata'); //
 const formatMessage = require('./utils/messages');
 const {
   userJoin,
@@ -25,6 +25,7 @@ const getOtazky = require('./src/otazky/otazky');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+var _socket;
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,9 +34,11 @@ const botName = 'RoboAdmin';//netreba
 
 // Run when client connects
 io.on('connection', socket => {
+  _socket = socket;
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
-    socket.join(user.room);
+    roomdata.joinRoom(socket, user.room); //pripoji sa do miestnosti
+    roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: defaultOtazky});
       //prida objekt s pocitadlami, ak uz pre danu izbu neexistuje
       pridajPocitadloPreMiestnost(user.room);
       //nastavi otazky na zaciatok iba ak sa pripojil prvy hrac
@@ -52,7 +55,7 @@ io.on('connection', socket => {
   //pri dalsej otazke sa vygeneruje nahodne cislo, vezme sa otazka a pomenia sa indexy
   socket.on('otazka', msg => {
     const user = getCurrentUser(socket.id);
-    var merace = getPocitadla(user.room);
+    var merace = roomdata.get(socket,'gamedata');
     //poslem novu otazku
     io.to(user.room).emit('otazka', novaOtazka(user.room));
 
@@ -64,8 +67,7 @@ io.on('connection', socket => {
     }
     jeNaTahu(user.room, ktoJeNaTahu);
     merace.ktoJeNaTahu = ktoJeNaTahu;
-    var indexPocitadla = pocitadla.findIndex(x => x.room == user.room);
-    pocitadla[indexPocitadla] = merace;
+    roomdata.set(socket,'gamedata',merace);
     console.log('merace',merace);
     // Send users and room info
     io.to(user.room).emit('roomUsers', {
@@ -77,7 +79,7 @@ io.on('connection', socket => {
 
   socket.on('setOtazok', msg => {
     const user = getCurrentUser(socket.id);
-    var merace = getPocitadla(user.room);
+    var merace = roomdata.get(socket, 'gamedata');
 
     if (msg === "prvySetOtazok") {
         merace.otazky = getOtazky('prvySetOtazok');
@@ -94,13 +96,15 @@ io.on('connection', socket => {
     else if (msg === "mLTdirty") {
       merace.otazky = getOtazky('mLTdirty');
     }
+    else if (msg === "tagFriend1") {
+      merace.otazky = getOtazky('tagFriend1');
+    }
     io.to(user.room).emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
 
 
-    var indexPocitadla = pocitadla.findIndex(x => x.room == user.room);
-    pocitadla[indexPocitadla] = merace;
+    roomdata.set(socket,'gamedata',merace);
 
-    console.log('vsetky pocitadla:',pocitadla);
+
   });
 
   // Listen for chatMessage
@@ -126,6 +130,7 @@ io.on('connection', socket => {
         formatMessage(botName, `${user.username} nas opustil/a`)
       );
 
+      roomdata.leaveRoom(socket)
       // Send users and room info
       io.to(user.room).emit('roomUsers', {
         room: user.room,
@@ -147,24 +152,24 @@ function getRandomInt(min, max) {
 function novaOtazka(room) {
 
   //najdi udaje pre konkretnu miestnost
-  var merac = getPocitadla(room);
+  var merac = roomdata.get(_socket,'gamedata');
 
   //vloz udaje do konkretnych premennych a urob co treba
   var counter = merac.counter + 1;
   var index = getRandomInt(0,merac.otazky.length);
   var dlzka = merac.otazky.length;
 
-  var otazkyIzba = getOtazkyIzba(room);
-  var pom = otazkyIzba[index];
-  var poleOtazok = merac.otazky;
+  var otazkyIzba = merac.otazky;
+  var pom = merac.otazky[index];
+
   //uprav udaje pre objekt merac, aby sme ho mohli zapisat nazad do pola
   otazkyIzba.splice(index,1);
   merac.counter = counter;
+  merac.otazky = otazkyIzba;
+  roomdata.set(_socket,'gamedata',merac);
 
-  //najdi index objektu pre udaje v poli a nahrad ho upravenym
-  merac.otazky = poleOtazok;
-  var indexPocitadla = pocitadla.findIndex(x => x.room == room);
-  pocitadla[indexPocitadla] = merac;
+
+
 
   //return udaje pre otazku
   return {pom, counter, dlzka};
@@ -174,7 +179,7 @@ function novaOtazka(room) {
 function titulnaOtazka(titulok,room) {
   setCounterIzba(room,0);
   var counter = 0;
-  var dlzka = getOtazkyIzba(room).length;
+  var dlzka = roomdata.get(_socket,'gamedata').otazky.length;
   var pom = titulok;
   return {pom, counter, dlzka};
 }

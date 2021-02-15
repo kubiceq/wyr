@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "moment": "^2.24.0",
     "moments": "0.0.2",
+    "roomdata": "^1.1.7-b",
     "socket.io": "^2.4.1"
   },
   "devDependencies": {
