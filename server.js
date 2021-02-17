@@ -5,7 +5,10 @@ const defaultOtazky = [
     "Vyberte si otázky v sekcií Iné Balíčky"
 ]
 
-var pocitadla = [];
+
+const lodashClonedeep = require("lodash");
+var clone = require('clone');
+const R = require('ramda');
 const path = require('path');
 const http = require('http');
 const express = require('express');
@@ -30,19 +33,16 @@ var _socket;
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-const botName = 'RoboAdmin';//netreba
-
 // Run when client connects
 io.on('connection', socket => {
   _socket = socket;
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
     roomdata.joinRoom(socket, user.room); //pripoji sa do miestnosti
-    roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: defaultOtazky});
-      //prida objekt s pocitadlami, ak uz pre danu izbu neexistuje
-      pridajPocitadloPreMiestnost(user.room);
+    roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky)});
+
       //nastavi otazky na zaciatok iba ak sa pripojil prvy hrac
-      socket.emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
+      socket.emit('setOtazok',  titulnaOtazka("Novy Set",socket));
       //nastavi na jeNaTahu toho, kto sa poslendny pripoji
       jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
       // Send users and room info
@@ -56,9 +56,9 @@ io.on('connection', socket => {
   socket.on('otazka', msg => {
     const user = getCurrentUser(socket.id);
     var merace = roomdata.get(socket,'gamedata');
-    //poslem novu otazku
-    io.to(user.room).emit('otazka', novaOtazka(user.room));
 
+    //poslem novu otazku
+    io.to(user.room).emit('otazka', novaOtazka(user.room,socket));
     //zmenim kto je na tahu
     var ktoJeNaTahu = merace.ktoJeNaTahu;
     ktoJeNaTahu = ktoJeNaTahu + 1;
@@ -67,43 +67,62 @@ io.on('connection', socket => {
     }
     jeNaTahu(user.room, ktoJeNaTahu);
     merace.ktoJeNaTahu = ktoJeNaTahu;
+
     roomdata.set(socket,'gamedata',merace);
-    console.log('merace',merace);
+
     // Send users and room info
     io.to(user.room).emit('roomUsers', {
       room: user.room,
       users: getRoomUsers(user.room)
     });
+    console.log(roomdata.get(socket,'gamedata'));
   });
 
 
   socket.on('setOtazok', msg => {
     const user = getCurrentUser(socket.id);
     var merace = roomdata.get(socket, 'gamedata');
-
+  let pomMerace = [];
     if (msg === "prvySetOtazok") {
-        merace.otazky = getOtazky('prvySetOtazok');
+      let pom = getOtazky('prvySetOtazok');
+      let pom2 = R.clone(pom);
+      console.log(pom === pom2);
+      merace.otazky = pom2;
     }
     else if (msg === "druhySetOtazok") {
-        merace.otazky = getOtazky('druhySetOtazok');
+      let pom = getOtazky('druhySetOtazok');
+      let pom2 = R.clone(pom);
+      console.log(pom === pom2);
+      merace.otazky = pom2;
     }
     else if (msg === "tretiSetOtazok") {
-        merace.otazky = getOtazky('tretiSetOtazok');
+      let pom = getOtazky('tretiSetOtazok');
+      let pom2 = R.clone(pom);
+      console.log(pom === pom2);
+      merace.otazky = pom2;
     }
     else if (msg === "stvrtySetOtazok") {
-      merace.otazky = getOtazky('stvrtySetOtazok');
+      let pom = getOtazky('stvrtySetOtazok');
+      let pom2 = R.clone(pom);
+      console.log(pom === pom2);
+      merace.otazky = pom2;
     }
     else if (msg === "mLTdirty") {
-      merace.otazky = getOtazky('mLTdirty');
+      let pom = getOtazky('mLTdirty');
+      let pom2 = R.clone(pom);
+      console.log(pom === pom2);
+      merace.otazky = pom2;
     }
     else if (msg === "tagFriend1") {
-      merace.otazky = getOtazky('tagFriend1');
+      let pom = getOtazky('tagFriend1');
+      let pom2 = R.clone(pom);
+      console.log(pom === pom2);
+      merace.otazky = pom2;
     }
-    io.to(user.room).emit('setOtazok',  titulnaOtazka("Novy Set",user.room));
-
 
     roomdata.set(socket,'gamedata',merace);
 
+    io.to(user.room).emit('setOtazok',  titulnaOtazka("Nový Set",socket));
 
   });
 
@@ -149,10 +168,10 @@ function getRandomInt(min, max) {
 }
 
 //najde nahodnu otazku a vrati otazku, pocet doteraz otazok a pocet vsetkych otazok
-function novaOtazka(room) {
+function novaOtazka(room,socket) {
 
   //najdi udaje pre konkretnu miestnost
-  var merac = roomdata.get(_socket,'gamedata');
+  var merac = roomdata.get(socket,'gamedata');
 
   //vloz udaje do konkretnych premennych a urob co treba
   var counter = merac.counter + 1;
@@ -166,7 +185,7 @@ function novaOtazka(room) {
   otazkyIzba.splice(index,1);
   merac.counter = counter;
   merac.otazky = otazkyIzba;
-  roomdata.set(_socket,'gamedata',merac);
+  roomdata.set(socket,'gamedata',merac);
 
 
 
@@ -176,52 +195,15 @@ function novaOtazka(room) {
 }
 
 //pri pouziti noveho balicku vrati otazku so specifickym nazvom a nastavi counter na 0
-function titulnaOtazka(titulok,room) {
-  setCounterIzba(room,0);
-  var counter = 0;
-  var dlzka = roomdata.get(_socket,'gamedata').otazky.length;
+function titulnaOtazka(titulok,socket) {
+  let counter = 0;
+  let gamedata = roomdata.get(socket,'gamedata');
+  gamedata.counter = 0;
+  var dlzka = gamedata.otazky.length;
   var pom = titulok;
+  roomdata.set(socket,'gamedata',gamedata);
   return {pom, counter, dlzka};
 }
-
-function getPocitadla(room){
- return pocitadla.find(pocitadla => pocitadla.room === room);
-}
-
-function setPocitadlo(room, counter, ktoJeNaTahu ){
-const pom = pocitadla.find(pocitadlo => pocitadlo.room === room);
-pom.counter = counter;
-pom.ktoJeNaTahu = ktoJeNaTahu;
-}
-
-function pridajPocitadloPreMiestnost(room){
-  const pom = pocitadla.find(pocitadlo => pocitadlo.room === room);
-  if (pom === undefined) {
-    pocitadla.push({
-      room : room,
-      counter: 0,
-      ktoJeNaTahu: 0,
-      otazky:defaultOtazky
-    })
-  }
-}
-
-
-function setOtazkyIzba(otazky,room) {
-  var index = pocitadla.findIndex(poc => poc.room === room);
-  pocitadla[index].otazky = otazky;
-}
-
-function getOtazkyIzba(room) {
-  var index = pocitadla.findIndex(poc => poc.room === room);
-  return pocitadla[index].otazky;
-}
-
-function setCounterIzba(room,_counter) {
-  var index = pocitadla.findIndex(poc => poc.room === room);
-  pocitadla[index].counter = _counter;
-}
-
 
 
 

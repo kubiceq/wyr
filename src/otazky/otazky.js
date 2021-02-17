@@ -1,4 +1,7 @@
 
+const R = require('ramda');
+
+
 let prvySetOtazok = ["Would you rather Have a dog with a cat’s personality or a cat with a dog’s personality?",
   "If you were reborn in a new life, would you rather be alive in the past or future?",
   "Would you rather eat no candy at Halloween or no turkey at Thanksgiving?",
@@ -318,7 +321,8 @@ function getOtazky(nazov){
 
   switch (nazov) {
     case 'prvySetOtazok':
-        return prvySetOtazok
+      let kopia = R.clone(prvySetOtazok);
+        return kopia;
       break;
     case 'druhySetOtazok':
         return druhySetOtazok
