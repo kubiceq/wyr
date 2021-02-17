@@ -130,7 +130,7 @@ socket.on('otazka', otazka => {
 
 socket.on('setOtazok', titulnaOtazka => {
   console.log(titulnaOtazka);
-  novyDeck(titulnaOtazka.dlzka);
+  novyDeck(titulnaOtazka.dlzka,titulnaOtazka.counter);
 
   console.log(titulnaOtazka);
   //console.log(titulnaOtazka.counter);
@@ -164,45 +164,16 @@ var removeTopCard = function() {
   }, 500);
 }
 
-var addNewCard = function() {
-  var $card = $('<div>', {
-    html: '<div class="karta is-offscreen--r">' +
-      '<header class="karta-header">' +
-      ' <h3>Card Title</h3>' +
-      '</header>' +
-      '<div class="karta-body">' +
-      '  Body Content' +
-      '</div>' +
-      '<footer class="karta-footer">' +
-      '  ®ruffaid' +
-      '</footer>'
-  }).children(1);
-  console.log('card', $card);
-  $deck.append($card);
-  window.setTimeout(function() {
-    $card.removeClass('is-offscreen--r');
-  }, 1);
-};
-
-// $('body').on('click', function () {
-//     console.log('click');
-//     //addNewCard();
-// });
-
-// $('.deck').on('click', function (e) {
-//   socket.emit('otazka','next');
-//     e.preventDefault();
-//     e.stopPropagation();
-//     console.log('click');
-// });
 
 
-function novyDeck(pocetKariet) {
+
+
+function novyDeck(pocetKariet,counter) {
   console.log(document.getElementById('deck').innerHTML);
   document.getElementById('deck').innerHTML = '';
   console.log($deck.innerHTML);
 
-  for (var i = pocetKariet + 1; i >= 0; i--) {
+  for (var i = pocetKariet + 1; i >= counter; i--) {
     var $card = $('<div>', {
       html: '<div class="karta" >' +
         '<header class="karta-header">' +
@@ -215,7 +186,7 @@ function novyDeck(pocetKariet) {
         '  ®ruffaid' +
         '</footer>'
     }).children(1);
-    console.log('card', $card);
+
 
     $deck.append($card);
   }

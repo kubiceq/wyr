@@ -6,8 +6,6 @@ const defaultOtazky = [
 ]
 
 
-const lodashClonedeep = require("lodash");
-var clone = require('clone');
 const R = require('ramda');
 const path = require('path');
 const http = require('http');
