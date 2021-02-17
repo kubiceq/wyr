@@ -10,42 +10,42 @@
 			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
 			crossorigin="anonymous"
 		/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/style.css" />
 		<title>Hrajkanie</title>
 	</head>
 	<body>
 		<div class="join-container">
 			<header class="join-header">
-				<h1> Hrajkanie</h1>
+				<h2> Hrajkanie</h2>
 			</header>
 			<main class="join-main">
 				<form action="WYR.html" >
 
 					<div class="form-control">
-						<label for="username">Meno</label>
+						<label for="username">Meno: </label>
 						<input
 							type="text"
 							name="username"
 							id="username"
-							placeholder="Enter username..."
+							placeholder="Tvoje meno"
 							required
 						/>
 					</div>
 
 
 					<div class="form-control">
-						<label for="room">Miestnosť</label>
+						<label for="room">Miestnosť: </label>
 						<input
 								type="text"
 								name="room"
 								id="room"
-								placeholder="ID miestnosti"
+								placeholder="Ak nevieš, vymysli si"
 								value=""
 								required
-								
-
 						/>
 					</div>
+
 
 					<button class="btn">Pridaj sa</button>
 				</form>
@@ -53,6 +53,23 @@
 		</div>
 
 
+		<div class="row">
+			<div class="col-sm-12">
+				<footer class="bg-light text-center text-lg-start fixed-bottom">
 
+					<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+						2021 by Kubqo
+						<form action="https://www.paypal.com/donate" method="post" target="_top">
+							<input type="hidden" name="hosted_button_id" value="DJW9Y6ZES7CP4" />
+							<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+							<img alt="" border="0" src="https://www.paypal.com/en_SK/i/scr/pixel.gif" width="1" height="1" />
+						</form>
+					</div>
+					<div>
+
+					</div>
+
+				</footer>
+			</div>
 	</body>
 </html>

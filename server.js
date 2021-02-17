@@ -54,11 +54,11 @@ io.on('connection', socket => {
   socket.on('otazka', msg => {
     const user = getCurrentUser(socket.id);
     // if (roomdata.get(socket,'gamedata') === undefined){
-    //   user.room = 'default';
-    //   user.id = 'default';
-    //   user.jeNaTahu = false;
-    //
-    // }
+    //     //   user.room = 'default';
+    //     //   user.id = 'default';
+    //     //   user.jeNaTahu = false;
+    //     //
+    //     // }
     var merace = roomdata.get(socket,'gamedata');
 
     //poslem novu otazku
