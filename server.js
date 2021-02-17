@@ -53,6 +53,12 @@ io.on('connection', socket => {
   //pri dalsej otazke sa vygeneruje nahodne cislo, vezme sa otazka a pomenia sa indexy
   socket.on('otazka', msg => {
     const user = getCurrentUser(socket.id);
+    // if (roomdata.get(socket,'gamedata') === undefined){
+    //   user.room = 'default';
+    //   user.id = 'default';
+    //   user.jeNaTahu = false;
+    //
+    // }
     var merace = roomdata.get(socket,'gamedata');
 
     //poslem novu otazku
@@ -142,10 +148,6 @@ io.on('connection', socket => {
     const user = userLeave(socket.id);
 
     if (user) {
-      io.to(user.room).emit(
-        'message',
-        formatMessage(botName, `${user.username} nas opustil/a`)
-      );
 
       roomdata.leaveRoom(socket)
       // Send users and room info
