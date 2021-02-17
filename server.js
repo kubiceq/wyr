@@ -1,8 +1,8 @@
 
 const defaultOtazky = [
     "Hráč so zeleným pásikom môže kliknúť na kartu a vybrať ďalšiu kartu",
-    "Ak niekto uvidí na karte text: Body Content, môže skúsiť Synchronizuj na hornej lište",
-    "Vyberte si otázky v sekcií Iné Balíčky"
+    "Vyberte si otázky v sekcií Iné Balíčky",
+    "V Kanade žije prekvapivo málo ľudí"
 ]
 
 
