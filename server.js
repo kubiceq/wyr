@@ -25,24 +25,35 @@ const {
 const getOtazky = require('./src/otazky/otazky');
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
-var _socket;
+const io = socketio(server, {
+  pingInterval: 6000, // How many ms before the client sends a new ping packet
+  pingTimeout: 15000, // How many ms without a pong packet to consider the connection closed.
+});;
+
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Run when client connects
 io.on('connection', socket => {
-  _socket = socket;
   socket.on('joinRoom', ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
     roomdata.joinRoom(socket, user.room); //pripoji sa do miestnosti
-    roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky)});
+
 
       //nastavi otazky na zaciatok iba ak sa pripojil prvy hrac
+    if (getNumberOfRoomUsers(room) > 1){
+      let dataIzby = roomdata.get(socket,'gamedata');
+      socket.emit('setOtazok',{pom: dataIzby.aktualnaOtazka, counter: dataIzby.counter, dlzka: dataIzby.otazky.length })
+    }
+    else {
+      roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: ""});
       socket.emit('setOtazok',  titulnaOtazka("Novy Set",socket));
-      //nastavi na jeNaTahu toho, kto sa poslendny pripoji
       jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
+    }
+
+
+
       // Send users and room info
       io.to(user.room).emit('roomUsers', {
         room: user.room,
@@ -50,36 +61,39 @@ io.on('connection', socket => {
     });
   });
 
+
   //pri dalsej otazke sa vygeneruje nahodne cislo, vezme sa otazka a pomenia sa indexy
   socket.on('otazka', msg => {
     const user = getCurrentUser(socket.id);
-    // if (roomdata.get(socket,'gamedata') === undefined){
-    //     //   user.room = 'default';
-    //     //   user.id = 'default';
-    //     //   user.jeNaTahu = false;
-    //     //
-    //     // }
-    var merace = roomdata.get(socket,'gamedata');
+    if (user === undefined){
 
-    //poslem novu otazku
-    io.to(user.room).emit('otazka', novaOtazka(user.room,socket));
-    //zmenim kto je na tahu
-    var ktoJeNaTahu = merace.ktoJeNaTahu;
-    ktoJeNaTahu = ktoJeNaTahu + 1;
-    if (ktoJeNaTahu === getNumberOfRoomUsers(user.room)) {
-      ktoJeNaTahu = 0;
     }
-    jeNaTahu(user.room, ktoJeNaTahu);
-    merace.ktoJeNaTahu = ktoJeNaTahu;
+    else {
+      const user = getCurrentUser(socket.id);
+      let merace = roomdata.get(socket, 'gamedata');
+      let aktualnaOtazka = novaOtazka(user.room, socket);
+      merace.aktualnaOtazka = aktualnaOtazka.pom;
 
-    roomdata.set(socket,'gamedata',merace);
+      //poslem novu otazku
+      io.to(user.room).emit('otazka', aktualnaOtazka);
+      //zmenim kto je na tahu
+      let ktoJeNaTahu = merace.ktoJeNaTahu;
+      ktoJeNaTahu = ktoJeNaTahu + 1;
+      if (ktoJeNaTahu === getNumberOfRoomUsers(user.room)) {
+        ktoJeNaTahu = 0;
+      }
+      jeNaTahu(user.room, ktoJeNaTahu);
+      merace.ktoJeNaTahu = ktoJeNaTahu;
 
-    // Send users and room info
-    io.to(user.room).emit('roomUsers', {
-      room: user.room,
-      users: getRoomUsers(user.room)
-    });
-    console.log(roomdata.get(socket,'gamedata'));
+      roomdata.set(socket, 'gamedata', merace);
+
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
+      console.log(roomdata.get(socket, 'gamedata'));
+    }
   });
 
 
@@ -145,7 +159,32 @@ io.on('connection', socket => {
 
   // Runs when client disconnects
   socket.on('disconnect', () => {
+
     const user = userLeave(socket.id);
+    if (user === undefined){
+
+    }
+    else {
+    if (user.jeNaTahu && getNumberOfRoomUsers(user.room > 0)){
+      let merace = roomdata.get(socket,'gamedata');
+      let ktoJeNaTahu = merace.ktoJeNaTahu;
+      ktoJeNaTahu = ktoJeNaTahu + 1;
+      if (ktoJeNaTahu === getNumberOfRoomUsers(user.room)) {
+        ktoJeNaTahu = 0;
+      }
+      jeNaTahu(user.room, ktoJeNaTahu);
+      merace.ktoJeNaTahu = ktoJeNaTahu;
+
+      roomdata.set(socket,'gamedata',merace);
+
+      // Send users and room info
+      io.to(user.room).emit('roomUsers', {
+        room: user.room,
+        users: getRoomUsers(user.room)
+      });
+    }
+
+    //odstranenie userov
 
     if (user) {
 
@@ -156,7 +195,8 @@ io.on('connection', socket => {
         users: getRoomUsers(user.room)
       });
     }
-  });
+  }
+});
 
 
 });
@@ -187,9 +227,6 @@ function novaOtazka(room,socket) {
   merac.otazky = otazkyIzba;
   roomdata.set(socket,'gamedata',merac);
 
-
-
-
   //return udaje pre otazku
   return {pom, counter, dlzka};
 }
@@ -205,7 +242,9 @@ function titulnaOtazka(titulok,socket) {
   return {pom, counter, dlzka};
 }
 
+function glupa() {
 
+}
 
 
 const PORT = process.env.PORT || 3000;

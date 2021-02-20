@@ -138,7 +138,7 @@ socket.on('setOtazok', titulnaOtazka => {
   const pocitadlohtml = document.getElementById('counter');
   otazkahtml.innerText = titulnaOtazka.pom;
   pocitadlohtml.innerText = "Otázka: " + titulnaOtazka.counter + " Zostáva: " + titulnaOtazka.dlzka;
-
+  
 });
 
 function vyberSetOtazok(otazky) {
