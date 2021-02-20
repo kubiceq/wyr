@@ -129,8 +129,8 @@ socket.on('otazka', otazka => {
 });
 
 socket.on('setOtazok', titulnaOtazka => {
-  console.log(titulnaOtazka);
-  novyDeck(titulnaOtazka.dlzka,titulnaOtazka.counter);
+
+  novyDeck(titulnaOtazka.dlzka,titulnaOtazka.counter,titulnaOtazka.typHry);
 
   console.log(titulnaOtazka);
   //console.log(titulnaOtazka.counter);
@@ -138,7 +138,7 @@ socket.on('setOtazok', titulnaOtazka => {
   const pocitadlohtml = document.getElementById('counter');
   otazkahtml.innerText = titulnaOtazka.pom;
   pocitadlohtml.innerText = "Otázka: " + titulnaOtazka.counter + " Zostáva: " + titulnaOtazka.dlzka;
-  
+
 });
 
 function vyberSetOtazok(otazky) {
@@ -168,9 +168,9 @@ var removeTopCard = function() {
 
 
 
-function novyDeck(pocetKariet,counter) {
-  console.log(document.getElementById('deck').innerHTML);
+function novyDeck(pocetKariet,counter,typHry) {
   document.getElementById('deck').innerHTML = '';
+
   console.log($deck.innerHTML);
 
   for (var i = pocetKariet + 1; i >= counter; i--) {
@@ -186,9 +186,27 @@ function novyDeck(pocetKariet,counter) {
         '  ®ruffaid' +
         '</footer>'
     }).children(1);
-
-
     $deck.append($card);
+    switch (typHry) {
+      case'WouldYouRather':
+        zmenFarbuPozadia('karta','#F5EFA3') ;
+        break;
+      case'MostLikelyTo':
+        zmenFarbuPozadia('karta','#F2BDB3') ;
+        break;
+      case'TagAFriend':
+        zmenFarbuPozadia('karta','#5DE8BC');
+        break;
+      default:
+        zmenFarbuPozadia('karta','#F2DBB3');
+    }
+  }
+}
+
+function zmenFarbuPozadia(trieda,farba) {
+  var objekty = document.getElementsByClassName(trieda);
+  for(i = 0; i < objekty.length; i++) {
+    objekty[i].style.backgroundColor = farba;
   }
 }
 

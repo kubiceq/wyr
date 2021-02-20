@@ -44,10 +44,10 @@ io.on('connection', socket => {
       //nastavi otazky na zaciatok iba ak sa pripojil prvy hrac
     if (getNumberOfRoomUsers(room) > 1){
       let dataIzby = roomdata.get(socket,'gamedata');
-      socket.emit('setOtazok',{pom: dataIzby.aktualnaOtazka, counter: dataIzby.counter, dlzka: dataIzby.otazky.length })
+      socket.emit('setOtazok',{pom: dataIzby.aktualnaOtazka, counter: dataIzby.counter, dlzka: dataIzby.otazky.length, typHry: dataIzby.typHry })
     }
     else {
-      roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: ""});
+      roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: "", typHry: 'default'});
       socket.emit('setOtazok',  titulnaOtazka("Novy Set",socket));
       jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
     }
@@ -99,49 +99,53 @@ io.on('connection', socket => {
 
   socket.on('setOtazok', msg => {
     const user = getCurrentUser(socket.id);
-    var merace = roomdata.get(socket, 'gamedata');
-  let pomMerace = [];
-    if (msg === "prvySetOtazok") {
-      let pom = getOtazky('prvySetOtazok');
-      let pom2 = R.clone(pom);
-      console.log(pom === pom2);
-      merace.otazky = pom2;
-    }
-    else if (msg === "druhySetOtazok") {
-      let pom = getOtazky('druhySetOtazok');
-      let pom2 = R.clone(pom);
-      console.log(pom === pom2);
-      merace.otazky = pom2;
-    }
-    else if (msg === "tretiSetOtazok") {
-      let pom = getOtazky('tretiSetOtazok');
-      let pom2 = R.clone(pom);
-      console.log(pom === pom2);
-      merace.otazky = pom2;
-    }
-    else if (msg === "stvrtySetOtazok") {
-      let pom = getOtazky('stvrtySetOtazok');
-      let pom2 = R.clone(pom);
-      console.log(pom === pom2);
-      merace.otazky = pom2;
-    }
-    else if (msg === "mLTdirty") {
-      let pom = getOtazky('mLTdirty');
-      let pom2 = R.clone(pom);
-      console.log(pom === pom2);
-      merace.otazky = pom2;
-    }
-    else if (msg === "tagFriend1") {
-      let pom = getOtazky('tagFriend1');
-      let pom2 = R.clone(pom);
-      console.log(pom === pom2);
-      merace.otazky = pom2;
-    }
+    if (user === undefined){
 
-    roomdata.set(socket,'gamedata',merace);
+    }
+    {
+      var merace = roomdata.get(socket, 'gamedata');
+      if (msg === "prvySetOtazok") {
+        let pom = getOtazky('prvySetOtazok');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'WouldYouRather';
+      } else if (msg === "druhySetOtazok") {
+        let pom = getOtazky('druhySetOtazok');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'WouldYouRather';
+      } else if (msg === "tretiSetOtazok") {
+        let pom = getOtazky('tretiSetOtazok');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'WouldYouRather';
+      } else if (msg === "stvrtySetOtazok") {
+        let pom = getOtazky('stvrtySetOtazok');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'WouldYouRather';
+      } else if (msg === "mLTdirty") {
+        let pom = getOtazky('mLTdirty');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'MostLikelyTo';
+      } else if (msg === "tagFriend1") {
+        let pom = getOtazky('tagFriend1');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'TagAFriend';
+      }
 
-    io.to(user.room).emit('setOtazok',  titulnaOtazka("Nový Set",socket));
+      roomdata.set(socket, 'gamedata', merace);
 
+      io.to(user.room).emit('setOtazok', titulnaOtazka("Nový Set", socket));
+    }
   });
 
   // Listen for chatMessage
@@ -184,10 +188,7 @@ io.on('connection', socket => {
       });
     }
 
-    //odstranenie userov
-
     if (user) {
-
       roomdata.leaveRoom(socket)
       // Send users and room info
       io.to(user.room).emit('roomUsers', {
@@ -238,13 +239,15 @@ function titulnaOtazka(titulok,socket) {
   gamedata.counter = 0;
   var dlzka = gamedata.otazky.length;
   var pom = titulok;
+  let typHry = gamedata.typHry;
   roomdata.set(socket,'gamedata',gamedata);
-  return {pom, counter, dlzka};
+  return {pom, counter, dlzka, typHry};
 }
 
 function glupa() {
 
 }
+
 
 
 const PORT = process.env.PORT || 3000;
