@@ -187,18 +187,28 @@ function novyDeck(pocetKariet,counter,typHry) {
         '</footer>'
     }).children(1);
     $deck.append($card);
+
+    let  pravidlahtml = document.getElementById('pravidla');
     switch (typHry) {
       case'WouldYouRather':
         zmenFarbuPozadia('karta','#F5EFA3') ;
+        pravidlahtml.innerHTML =  '  <h3>Pravidlá:</h3>\n' +
+                                  '  <p>Každý hráč odpovie na otázku, potom vytiahne otázku pre ďalšieho hráča</p>';
         break;
       case'MostLikelyTo':
         zmenFarbuPozadia('karta','#F2BDB3') ;
+        pravidlahtml.innerHTML =  '  <h3>Pravidlá:</h3>\n' +
+            '  <p>Hráči sa musia zhodnúť, kto má najväčšiu šancu, že sa mu stane to, čo je na karte.</p>';
         break;
       case'TagAFriend':
         zmenFarbuPozadia('karta','#5DE8BC');
+        pravidlahtml.innerHTML =  '  <h3>Pravidlá:</h3>\n' +
+            '  <p>Každý hráč odpovie na otázku, potom vytiahne otázku pre ďalšieho hráča.</p>';
         break;
       default:
         zmenFarbuPozadia('karta','#F2DBB3');
+        pravidlahtml.innerHTML =  '<p>Kartu môže otočiť iba ten, kto je práve na ťahu.</p>' +
+                                  '<p>Iný balíček a iný typ hry si môžete vybrať na karte Iné Balíčky</p>';
     }
   }
 }

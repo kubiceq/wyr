@@ -45,6 +45,9 @@ body {
 	position: absolute;
 	z-index: -1;
 }
+.pravidla{
+	padding-right: 10px;
+}
 
 h1{
 	font-size: 20px;
