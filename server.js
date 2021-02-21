@@ -169,16 +169,10 @@ io.on('connection', socket => {
 
     }
     else {
-    if (user.jeNaTahu && getNumberOfRoomUsers(user.room > 0)){
+    if (user.jeNaTahu && getNumberOfRoomUsers(user.room) > 0){
       let merace = roomdata.get(socket,'gamedata');
-      let ktoJeNaTahu = merace.ktoJeNaTahu;
-      ktoJeNaTahu = ktoJeNaTahu + 1;
-      if (ktoJeNaTahu === getNumberOfRoomUsers(user.room)) {
-        ktoJeNaTahu = 0;
-      }
-      jeNaTahu(user.room, ktoJeNaTahu);
-      merace.ktoJeNaTahu = ktoJeNaTahu;
-
+      merace.ktoJeNaTahu =getRandomInt(0,getNumberOfRoomUsers(user.room));
+      jeNaTahu(user.room, merace.ktoJeNaTahu);
       roomdata.set(socket,'gamedata',merace);
 
       // Send users and room info
