@@ -21,14 +21,28 @@
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
-	background: var(--farbaB);
 	margin: 20px;
 }
 .hra-telo{
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	background: var(--farbaB);
-	margin: 20px;
+
+
+}
+.hra-telo::after{
+	content: "";
+	background: url("002-cosmopolitan.png");
+	background-repeat: repeat;
+	background-size: 50px 50px;
+	padding: 25px;
+	opacity: 0.1;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	position: absolute;
+	z-index: -1;
 }
 
 h1{
@@ -218,15 +232,10 @@ Copyright (c) 2021 by Jon Beebe https://codepen.io/somethingkindawierd/pen/Flbhv
     transition: all 0.5s ease-in-out;
 	background-color: var(--farbaE);
 	font-size: 20px;
+	border-radius: 20px;
 }
 
-.body-message {
-    color: #999;
-    text-align: center;
-    margin-top: 5em;
-    margin-left: auto;
-    margin-right: auto;
-}
+
 
 .karta-header {
     color: #333;
