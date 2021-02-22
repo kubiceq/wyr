@@ -79,11 +79,12 @@ function outputUsers(users) {
 
   const thisUser = users.find(user => user.id === socket.id);
   const deckhtml = document.getElementById('deck');
-  if (thisUser.jeNaTahu) {
+  if (thisUser.jeNaTahu || thisUser === users[0]) {
     deckhtml.setAttribute('onclick', 'novaOtazka()')
   } else {
     deckhtml.setAttribute('onclick', 'glupa()')
   }
+
 }
 
 function novaOtazka() {
