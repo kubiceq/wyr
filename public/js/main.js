@@ -85,6 +85,14 @@ function outputUsers(users) {
     deckhtml.setAttribute('onclick', 'glupa()')
   }
 
+  let dropdownBalicky =[...document.getElementsByClassName('dropdown-item')];
+  if (thisUser !== users[0]){
+      for (element of dropdownBalicky){
+        element.onclick = glupa();
+        console.log(element);
+      }
+  }
+
 }
 
 function novaOtazka() {
@@ -223,6 +231,10 @@ function zmenFarbuPozadia(trieda,farba) {
 
 function glupa() {
 
+}
+
+function posliAlert(string) {
+  alert(string);
 }
 
 function refreshAll() {
