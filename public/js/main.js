@@ -178,7 +178,7 @@ function novyDeck(pocetKariet,counter,typHry) {
     var $card = $('<div>', {
       html: '<div class="karta" >' +
         '<header class="karta-header">' +
-        ' <h3>Hrajkanie</h3>' +
+        ` <h3>${typHry}</h3>` +
         '</header>' +
         `<div class="karta-body" id="karta-${i}">` +
         '  Body Content' +
