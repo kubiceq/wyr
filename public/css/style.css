@@ -18,6 +18,7 @@
 	color: var(--farbaD);
 }
 
+
 body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
@@ -130,17 +131,21 @@ a {
 	color: var(--farbaD);
 }
 .bocnyPanel{
-	border: 1px solid #78679C;
+	border: 3px solid #78679C;
 	border-radius: .5rem;
+	margin-left: 15px;
+	background-color: white;
 }
 .bocnyPanel p{
 	margin-bottom: 5px;
 }
 .bocnyPanel-nadpis{
-	color: var(--farbaD);
+	color: black;
+	font-weight: bold;
 	font-size: 20px;
 }
 .aktivnyUser{
+	color: white;
 	background-color: green;
 }
 .kopka1Btn{
