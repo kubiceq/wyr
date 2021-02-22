@@ -109,37 +109,37 @@ io.on('connection', socket => {
         let pom2 = R.clone(pom);
         console.log(pom === pom2);
         merace.otazky = pom2;
-        merace.typHry = 'WouldYouRather';
+        merace.typHry = 'Would You Rather';
       } else if (msg === "druhySetOtazok") {
         let pom = getOtazky('druhySetOtazok');
         let pom2 = R.clone(pom);
         console.log(pom === pom2);
         merace.otazky = pom2;
-        merace.typHry = 'WouldYouRather';
+        merace.typHry = 'Would You Rather';
       } else if (msg === "tretiSetOtazok") {
         let pom = getOtazky('tretiSetOtazok');
         let pom2 = R.clone(pom);
         console.log(pom === pom2);
         merace.otazky = pom2;
-        merace.typHry = 'WouldYouRather';
+        merace.typHry = 'Would You Rather';
       } else if (msg === "stvrtySetOtazok") {
         let pom = getOtazky('stvrtySetOtazok');
         let pom2 = R.clone(pom);
         console.log(pom === pom2);
         merace.otazky = pom2;
-        merace.typHry = 'WouldYouRather';
+        merace.typHry = 'Would You Rather';
       } else if (msg === "mLTdirty") {
         let pom = getOtazky('mLTdirty');
         let pom2 = R.clone(pom);
         console.log(pom === pom2);
         merace.otazky = pom2;
-        merace.typHry = 'MostLikelyTo';
+        merace.typHry = 'Most Likely To';
       } else if (msg === "tagFriend1") {
         let pom = getOtazky('tagFriend1');
         let pom2 = R.clone(pom);
         console.log(pom === pom2);
         merace.otazky = pom2;
-        merace.typHry = 'TagAFriend';
+        merace.typHry = 'Tag A Friend';
       }
 
       roomdata.set(socket, 'gamedata', merace);
