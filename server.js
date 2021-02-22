@@ -47,7 +47,7 @@ io.on('connection', socket => {
       socket.emit('setOtazok',{pom: dataIzby.aktualnaOtazka, counter: dataIzby.counter, dlzka: dataIzby.otazky.length, typHry: dataIzby.typHry })
     }
     else {
-      roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: "", typHry: 'default'});
+      roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: "", typHry: 'Tutorial'});
       socket.emit('setOtazok',  titulnaOtazka("Novy Set",socket));
       jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
     }
