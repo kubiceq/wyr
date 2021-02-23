@@ -216,7 +216,7 @@ function novyDeck(pocetKariet,counter,typHry) {
         break;
       default:
         zmenFarbuPozadia('karta','#F2DBB3');
-        pravidlahtml.innerHTML =  '<p>Only player whos name is green can pick next card.</p>' +
+        pravidlahtml.innerHTML =  '<p>Only player whose name is green can pick next card.</p>' +
                                   '<p>Only admin can choose different packages</p>';
     }
   }

@@ -1,8 +1,25 @@
 
 const defaultOtazky = [
-    "First Card",
-    "Second Card",
-    "Third Card"
+  " Would you rather be a detective or a pilot?",
+  " Would you rather go skiing or go to a water park?",
+  " Would you rather fly a kite or swing on a swing?",
+  " Would you rather dance or sing?",
+  " Would you rather play hide and seek or dodgeball?",
+  " Would you rather be incredibly funny or incredibly smart?",
+  " Would you rather become five years older or two years younger?",
+  " Would you rather have a full suit of armor or a horse?",
+  " Would you rather be a master at drawing or be an amazing singer?",
+  " Would you rather be a wizard or a superhero?",
+  " Would you rather sail a boat or ride in a hang glider?",
+  " Would you rather brush your teeth with soap or drink sour milk?",
+  " Would you rather be a famous inventor or a famous writer?",
+  " Would you rather do school work as a group or by yourself?",
+  " Would you rather be able to do flips and backflips or break dance?",
+  " Would you rather see a firework display or a circus performance?",
+  " Would you rather it be warm and raining or cold and snowing today?",
+  " Would you rather be able to create a new holiday or create a new sport?",
+  " Would you rather only be able to walk on all fours or only be able to walk sideways like a crab?",
+  " Would you rather start a colony on another planet or be the leader of a small country on Earth?"
 ]
 
 
@@ -47,7 +64,7 @@ io.on('connection', socket => {
       socket.emit('setOtazok',{pom: dataIzby.aktualnaOtazka, counter: dataIzby.counter, dlzka: dataIzby.otazky.length, typHry: dataIzby.typHry })
     }
     else {
-      roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: "", typHry: 'Tutorial'});
+      roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: "", typHry: 'Would You Rather'});
       socket.emit('setOtazok',  titulnaOtazka("New Set",socket));
       jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
     }
@@ -141,10 +158,17 @@ io.on('connection', socket => {
         merace.otazky = pom2;
         merace.typHry = 'Tag A Friend';
       }
+      else if (msg === "childrenMegapackWouldYouRather") {
+        let pom = getOtazky('childrenMegapackWouldYouRather');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'Would You Rather';
+      }
 
       roomdata.set(socket, 'gamedata', merace);
 
-      io.to(user.room).emit('setOtazok', titulnaOtazka("Nový Set", socket));
+      io.to(user.room).emit('setOtazok', titulnaOtazka("New Set", socket));
     }
   });
 
