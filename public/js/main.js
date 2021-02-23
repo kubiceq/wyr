@@ -127,10 +127,10 @@ socket.on('otazka', otazka => {
   else {
 
     if (otazka.dlzka === 0) {
-      otazkahtml.innerText = "Koniec";
+      otazkahtml.innerText = "End";
       removeTopCard();
     } else {
-      pocitadlohtml.innerText = "Otázka: " + otazka.counter + " Zostáva: " + otazka.dlzka;
+      pocitadlohtml.innerText = "Question: " + otazka.counter + " Left: " + otazka.dlzka;
       otazkahtml.innerText = otazka.pom;
       removeTopCard();
     }
@@ -146,7 +146,7 @@ socket.on('setOtazok', titulnaOtazka => {
   const otazkahtml = document.getElementById(`karta-${titulnaOtazka.counter}`);
   const pocitadlohtml = document.getElementById('counter');
   otazkahtml.innerText = titulnaOtazka.pom;
-  pocitadlohtml.innerText = "Otázka: " + titulnaOtazka.counter + " Zostáva: " + titulnaOtazka.dlzka;
+  pocitadlohtml.innerText = "Question: " + titulnaOtazka.counter + " Left: " + titulnaOtazka.dlzka;
 
 });
 
@@ -201,23 +201,23 @@ function novyDeck(pocetKariet,counter,typHry) {
     switch (typHry) {
       case'Would You Rather':
         zmenFarbuPozadia('karta','#F5EFA3') ;
-        pravidlahtml.innerHTML =  '  <h3>Pravidlá:</h3>\n' +
-                                  '  <p>Každý hráč odpovie na otázku, potom vytiahne otázku pre ďalšieho hráča</p>';
+        pravidlahtml.innerHTML =  '  <h3>Rules:</h3>\n' +
+                                  '  <p>Player answers his question, then draws card for the next player.</p>';
         break;
       case'Most Likely To':
         zmenFarbuPozadia('karta','#F2BDB3') ;
-        pravidlahtml.innerHTML =  '  <h3>Pravidlá:</h3>\n' +
-            '  <p>Hráči sa musia zhodnúť, kto má najväčšiu šancu, že sa mu stane to, čo je na karte.</p>';
+        pravidlahtml.innerHTML =  '  <h3>Rules:</h3>\n' +
+            '  <p>Players have to agree on who is most likely to...(card). </p>';
         break;
       case'Tag A Friend':
         zmenFarbuPozadia('karta','#5DE8BC');
-        pravidlahtml.innerHTML =  '  <h3>Pravidlá:</h3>\n' +
-            '  <p>Každý hráč odpovie na otázku, potom vytiahne otázku pre ďalšieho hráča.</p>';
+        pravidlahtml.innerHTML =  '  <h3>Rules:</h3>\n' +
+            '  <p>Player answers his question, then draws card for the next player.</p>';
         break;
       default:
         zmenFarbuPozadia('karta','#F2DBB3');
-        pravidlahtml.innerHTML =  '<p>Kartu môže otočiť iba ten, kto je práve na ťahu.</p>' +
-                                  '<p>Iný balíček a iný typ hry si môžete vybrať na karte Iné Balíčky</p>';
+        pravidlahtml.innerHTML =  '<p>Only player whos name is green can pick next card.</p>' +
+                                  '<p>Only admin can choose different packages</p>';
     }
   }
 }
@@ -246,3 +246,10 @@ socket.on('refresh',msg =>{
   console.log('reload',msg);
   location.reload();
 });
+
+
+
+
+
+
+
