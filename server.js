@@ -1,8 +1,8 @@
 
 const defaultOtazky = [
-    "Hráč so zeleným pásikom môže kliknúť na kartu a vybrať ďalšiu kartu",
-    "Vyberte si otázky v sekcií Iné Balíčky",
-    "V Kanade žije prekvapivo málo ľudí"
+    "First Card",
+    "Second Card",
+    "Third Card"
 ]
 
 
@@ -48,7 +48,7 @@ io.on('connection', socket => {
     }
     else {
       roomdata.set(socket, "gamedata", {counter:0, ktoJeNaTahu:0,otazky: R.clone(defaultOtazky), aktualnaOtazka: "", typHry: 'Tutorial'});
-      socket.emit('setOtazok',  titulnaOtazka("Novy Set",socket));
+      socket.emit('setOtazok',  titulnaOtazka("New Set",socket));
       jeNaTahu(user.room, getNumberOfRoomUsers(user.room)-1);
     }
 
