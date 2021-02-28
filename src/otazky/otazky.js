@@ -353,6 +353,7 @@ function getOtazky(nazov){
 
 module.exports = getOtazky;
 
+const truthOrDare1 = [];
 
 const childrenMegapackWouldYouRather = [" Would you rather be a detective or a pilot?",
   " Would you rather go skiing or go to a water park?",

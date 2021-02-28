@@ -165,6 +165,13 @@ io.on('connection', socket => {
         merace.otazky = pom2;
         merace.typHry = 'Would You Rather';
       }
+      else if (msg === "truthOrDare1") {
+        let pom = getOtazky('truthOrDare1');
+        let pom2 = R.clone(pom);
+        console.log(pom === pom2);
+        merace.otazky = pom2;
+        merace.typHry = 'Would You Rather';
+      }
 
       roomdata.set(socket, 'gamedata', merace);
 

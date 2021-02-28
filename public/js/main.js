@@ -210,9 +210,19 @@ function novyDeck(pocetKariet,counter,typHry) {
             '  <p>Players have to agree on who is most likely to...(card). </p>';
         break;
       case'Tag A Friend':
-        zmenFarbuPozadia('karta','#5DE8BC');
+        zmenFarbuPozadia('karta','#dffad2');
         pravidlahtml.innerHTML =  '  <h3>Rules:</h3>\n' +
             '  <p>Player answers his question, then draws card for the next player.</p>';
+        break;
+      case'Truth':
+        zmenFarbuPozadia('karta','#bee2f7') ;
+        pravidlahtml.innerHTML =  '  <h3>Rules:</h3>\n' +
+            '  <p>Tell the truth. </p>';
+        break;
+      case'Dare':
+        zmenFarbuPozadia('karta','#f5bfef') ;
+        pravidlahtml.innerHTML =  '  <h3>Rules:</h3>\n' +
+            '  <p>Do the dare. </p>';
         break;
       default:
         zmenFarbuPozadia('karta','#F2DBB3');
