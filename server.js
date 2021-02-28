@@ -113,7 +113,7 @@ io.on('connection', socket => {
     }
   });
 
-
+//pri vybere noveho setu otazok natiahnem otazky a vytvorim deep clone
   socket.on('setOtazok', msg => {
     const user = getCurrentUser(socket.id);
     if (user === undefined){
