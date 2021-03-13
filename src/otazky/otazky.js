@@ -563,7 +563,7 @@ const childrenMegapackWouldYouRather = [" Would you rather be a detective or a p
 
 const patkineOtazky = [  " Would you rather be a detective or a pilot?",
   " Would you rather go skiing or go to a water park?",
-  " Would you rather dance or sing?"
+  " Would you rather dance or sing?",
   " Would you rather be incredibly funny or incredibly smart?",
   " Would you rather become five years older or two years younger?",
   " Would you rather have a full suit of armor or a horse?",
