@@ -342,6 +342,10 @@ function getOtazky(nazov){
     case 'childrenMegapackWouldYouRather':
       return childrenMegapackWouldYouRather;
       break;
+    case 'patka':
+      return patkineOtazky;
+      break;
+
 
     default:
       return "Ups. Niekde nastala chyba."
@@ -556,3 +560,53 @@ const childrenMegapackWouldYouRather = [" Would you rather be a detective or a p
   " Would you rather eat a bowl of spaghetti that was just one long noodle or eat ice cream launched from a catapult?",
   " Would you rather watch a two-hour movie or watch two hours of shows?"
 ];
+
+const patkineOtazky = [  " Would you rather be a detective or a pilot?",
+  " Would you rather go skiing or go to a water park?",
+  " Would you rather dance or sing?"
+  " Would you rather be incredibly funny or incredibly smart?",
+  " Would you rather become five years older or two years younger?",
+  " Would you rather have a full suit of armor or a horse?",
+  " Would you rather be a master at drawing or be an amazing singer?",
+  " Would you rather be a wizard or a superhero?",
+  " Would you rather be a famous inventor or a famous writer?",
+  " Would you rather do school work as a group or by yourself?",
+  " Would you rather it be warm and raining or cold and snowing today?",
+  " Would you rather be able to create a new holiday or create a new sport?",
+  " Would you rather be an incredibly fast swimmer or an incredibly fast runner?",
+  " Would you rather own an old-timey pirate ship and crew or a private jet with a pilot and infinite fuel?",
+  " Would you rather be able to jump as far as a kangaroo or hold your breath as long as a whale?",
+  " Would you rather be able to type/text very fast or be able to read really quickly?",
+  " Would you rather have the chance to design a new toy or create a new TV show?",
+  " Would you rather be really good at math or really good at sports?",
+  " Would you rather be the author of a popular book or a musician in a band who released a popular album?",
+  " Would you rather live in a place with a lot of trees or live in a place near the ocean?",
+  " Would you rather have a magic carpet that flies or a see-through submarine?",
+  " Would you rather everything in your house be one color or every single wall and door be a different color?",
+  " Would you rather visit the international space station for a week or stay in an underwater hotel for a week?",
+  " Would you rather have ninja-like skills or have amazing coding skills in any language?",
+  " Would you rather be able to control fire or water?",
+  " Would you rather drink every meal as a smoothie or never be able to eat food that has been cooked?",
+  " Would you rather be bulletproof or be able to survive falls from any height?",
+  " Would you rather eat a whole raw onion or a whole lemon?",
+  " Would you rather never have any homework or be paid 10$ per hour for doing your homework?",
+  " Would you rather eat a bowl of spaghetti noodles without sauce or a bowl of spaghetti sauce without noodles?",
+  " Would you rather have an elephant-sized cat or a cat-sized elephant?",
+  " Would you rather be able to jump into any picture and instantly be in that place and time but able to return or would you rather be able to take pictures of the future, just stand in a place think of a time in the future and take a picture?",
+  " Would you rather play outdoors or indoors?",
+  " Would you rather eat broccoli flavored ice cream or meat flavored cookies?",
+  " Would you rather have super strength or super speed?",
+  " Would you rather never eat cheese again or never drink anything sweet again?",
+  " Would you rather be able to speak any language but not be able to read in any of them or read any language but not be able to speak any of them?",
+  " Would you rather be an athlete in the Summer Olympics or the Winter Olympics?",
+  " Would you rather be a babysitter or a dog sitter?",
+  " Would you rather have any book you wanted for free or be able to watch any movie you wanted for free?",
+  " Would you rather be able to play the piano or the guitar?",
+  " Would you rather be able to read lips or know sign language?",
+  " Would you rather never have to sleep or never have to eat?",
+  " Would you rather visit every country in the World or be able to play any musical instrument?",
+  " Would you rather get up early or stay up late?",
+  " Would you rather be able to eat any spicy food without a problem or never be bitten by another mosquito?",
+  " Would you rather be able to learn everything in a book by putting it under your pillow while you slept or be able to control your dreams every night?",
+  " Would you rather have no homework or no tests?",
+  " Would you rather watch a two-hour movie or watch two hours of shows?"];

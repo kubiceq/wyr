@@ -158,6 +158,13 @@ io.on('connection', socket => {
         merace.otazky = pom2;
         merace.typHry = 'Tag A Friend';
       }
+        else if (msg === "patka") {
+          let pom = getOtazky('patka');
+          let pom2 = R.clone(pom);
+          console.log(pom === pom2);
+          merace.otazky = pom2;
+          merace.typHry = 'Would You Rather';
+      }
       else if (msg === "childrenMegapackWouldYouRather") {
         let pom = getOtazky('childrenMegapackWouldYouRather');
         let pom2 = R.clone(pom);
