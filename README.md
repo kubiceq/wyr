@@ -1,6 +1,3 @@
-
-<h1>Stale funguje len pre jednu miestnost</h1>
-
 # wyr
 <p>no tak podme na to</p>
 <p>system suborov som ukkradol odtialto:</p>
